@@ -1,0 +1,79 @@
+# Swift Package Manager
+.build/
+.swiftpm/xcode/
+.swiftpm/annotations/
+
+# Xcode
+DerivedData/
+*.xcworkspace
+!default.xcworkspace
+xcuserdata/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/xcshareddata/xcdebugger/
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+# Swift Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# CocoaPods
+Pods/
+*.lock
+*.xcworkspace
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Accenture or Flutter dependencies
+.pub-cache/
+.dart_tool/
+
+# SPX (Swift Playgrounds on iOS)
+__SPXTemp/
+userdata/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.DS_Store
+*.swm
+*.xcmappingmodel
+*.plist
+
+# macOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Icon?
+Icon\r
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Visual Studio Code
+.vscode/
+
+# Others
+*.log
+*.gz
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xcuserstate
+*.pch
