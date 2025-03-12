@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.goat.AssistantAi</string>
+	<string>com.patt.assistant.ai</string>
 	<key>PROJECT_ID</key>
 	<string>ai-assistant-backend</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:164860087792:ios:ec5cb72f24282c36422135</string>
+	<string>1:164860087792:ios:ef6dd78208eb3719422135</string>
 </dict>
 </plist>
