@@ -14,7 +14,6 @@ final class StableDiffusionApi {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(Consts.shared.apiKey)", forHTTPHeaderField: "Authorization")
         
         return try await withCheckedThrowingContinuation { continuation in
             let task = URLSession.shared.downloadTask(with: request) { tempURL, response, error in

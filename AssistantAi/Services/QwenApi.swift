@@ -102,13 +102,6 @@ final class QwenApi: ApiModel, Hashable {
         }
         request.httpBody = jsonData
         
-        //        if !AppProvider.shared.isUserSubscribed && !imagesList.isEmpty {
-        //            return AsyncThrowingStream<String, Error> { continuation in
-        //                continuation.yield("You need a Premium Subscription to upload images. Upgrade now to unlock this feature and enhance your experience!")
-        //                continuation.finish()
-        //            }
-        //        }
-        
         let (result, response) = try await URLSession.shared.bytes(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {

@@ -56,7 +56,6 @@ final class ChatGptApi: ApiModel, Hashable {
         
         let headers = [
             "Content-Type": "application/json",
-            "Authorization": "Bearer \(Consts.shared.apiKey)"
         ]
         
         let body: [String: Any] = [
@@ -91,10 +90,6 @@ final class ChatGptApi: ApiModel, Hashable {
     
     func getChatResponse(message: String, history: [ChatMessage], images: [String], version: String) async throws -> AsyncThrowingStream<String, Error> {
         guard let url = URL(string: "\(Consts.shared.apiBaseUrl)/api/chatgpt/chat") else { throw URLError(.badURL) }
-        
-        let headers = [
-            "Authorization": "Bearer \(Consts.shared.apiKey)",
-        ]
         
         var messages: [[String: Any]] = [
             [
@@ -141,7 +136,6 @@ final class ChatGptApi: ApiModel, Hashable {
         
         var request = URLRequest(url: url)
         
-        headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
         request.httpMethod = "POST"
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: requestBody, options: []) else {
@@ -151,6 +145,12 @@ final class ChatGptApi: ApiModel, Hashable {
         request.httpBody = jsonData
         
         let (result, response) = try await URLSession.shared.bytes(for: request)
+        
+        if let httpResponse = response as? HTTPURLResponse {
+                print("HTTP Status Code:", httpResponse.statusCode)
+            } else {
+                print("Invalid response")
+            }
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw ApiError.invalidResponse

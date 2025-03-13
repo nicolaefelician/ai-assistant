@@ -47,10 +47,6 @@ final class StoryTellingApi: ApiModel, Hashable {
     func getChatResponse(message: String, history: [ChatMessage], images: [String], version: String) async throws -> AsyncThrowingStream<String, Error> {
         guard let url = URL(string: "\(Consts.shared.apiBaseUrl)/api/chatgpt/chat") else { throw URLError(.badURL) }
         
-        let headers = [
-            "Authorization": "Bearer \(Consts.shared.apiKey)",
-        ]
-        
         var messages: [[String: Any]] = [
             [
                 "role": "storyteller",
@@ -100,7 +96,6 @@ final class StoryTellingApi: ApiModel, Hashable {
         
         var request = URLRequest(url: url)
         
-        headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
         request.httpMethod = "POST"
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: requestBody, options: []) else {
