@@ -131,10 +131,9 @@ struct ImageGenerationPopup: View {
                                 }
                                 
                                 do {
-//                                    let image = try await StableDiffusionApi.shared.generateImage(prompt, aspectRatio: selectedAspectRatio, style: selectedArtStyle.value)
-//                                    
-//                                    stateProvider.path.append(.imageDataView(image: image))
-                                    throw URLError(.badURL)
+                                    let image = try await StableDiffusionApi.shared.generateImage(prompt, aspectRatio: selectedAspectRatio, style: selectedArtStyle.value)
+                                    
+                                    stateProvider.path.append(.imageDataView(image: image))
                                 } catch {
                                     withAnimation {
                                         stateProvider.errorMessage = "Oops! Something went wrong while generating your image. Please try again later."

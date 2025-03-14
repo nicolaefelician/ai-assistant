@@ -130,7 +130,7 @@ struct ChatView: View {
                         } label: {
                             Image(systemName: "plus.circle")
                                 .foregroundStyle(.white)
-                                .font(.system(size: 21, weight: .medium))
+                                .font(.system(size: 22, weight: .medium))
                         }
                         
                         
@@ -161,7 +161,6 @@ struct ChatView: View {
                                     .padding(.horizontal, 14)
                                 }
                                 .frame(height: 80)
-                                .padding(.bottom, 10)
                             }
                             
                             TextField("Ask a question", text: $viewModel.inputText, axis: .vertical)
@@ -198,7 +197,7 @@ struct ChatView: View {
                     }
                 }
                 .padding(.horizontal, 13)
-                .padding(.bottom, 13)
+                .padding(.bottom, 11.5)
                 .onAppear {
                     proxy.scrollTo("BottomPadding", anchor: .bottom)
                 }
@@ -234,7 +233,7 @@ struct ChatView: View {
                 Text("Change model")
             }
             
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {}
         }
         .sheet(isPresented: $viewModel.showModelPicker) {
             ModelPickerView(viewModel: viewModel, assistantItem: assistantItem)
