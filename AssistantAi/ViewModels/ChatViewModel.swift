@@ -10,6 +10,8 @@ final class ChatViewModel: ObservableObject {
     @Published var showPhotoCameraPicker = false
     @Published var showImageLibraryPicker = false
     @Published var showImages: Bool = false
+    @Published var fullScreenImage: UIImage?
+    @Published var showFullScreenImage: Bool = false
     
     @Published var showActionSheet: Bool = false
     @Published var showModelPicker = false
@@ -97,6 +99,13 @@ final class ChatViewModel: ObservableObject {
             
             self.uploadedImages.append(image)
             self.showImages = true
+        }
+        .store(in: &cancellables)
+        
+        $fullScreenImage.sink { newImage in
+            guard let image = newImage else { return }
+            
+            self.showFullScreenImage = true
         }
         .store(in: &cancellables)
     }

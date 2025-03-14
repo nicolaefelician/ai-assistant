@@ -6,9 +6,9 @@ struct TextToSpeechCard: View {
     @State private var selectedVoice: GenerationVoice = GenerationVoice(name: "alloy")
     @State private var audioPlayer: AVPlayer?
     @State private var isPlaying: Bool = false
-
+    
     @ObservedObject private var stateProvider = StateProvider.shared
-
+    
     private let voices: [GenerationVoice] = [
         GenerationVoice(name: "alloy"),
         GenerationVoice(name: "ash"),
@@ -20,14 +20,14 @@ struct TextToSpeechCard: View {
         GenerationVoice(name: "sage"),
         GenerationVoice(name: "shimmer")
     ]
-
+    
     private struct GenerationVoice: Hashable {
         let name: String
         var audioURL: URL {
             return URL(string: "https://cdn.openai.com/API/docs/audio/\(name).wav")!
         }
     }
-
+    
     var body: some View {
         if stateProvider.showTextToSpeach {
             ZStack {
@@ -39,16 +39,16 @@ struct TextToSpeechCard: View {
                         }
                     }
                     .ignoresSafeArea()
-
+                
                 VStack(spacing: 16) {
                     HStack {
                         Text("Text-to-Speech")
                             .font(.title2)
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
-
+                        
                         Spacer()
-
+                        
                         Button(action: {
                             withAnimation {
                                 stateProvider.showTextToSpeach = false
@@ -61,18 +61,18 @@ struct TextToSpeechCard: View {
                                 .foregroundColor(.gray)
                         }
                     }
-
+                    
                     TextField("Enter text to convert to speech...", text: $textInput)
                         .foregroundColor(.white)
                         .padding()
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(10)
-
+                    
                     VStack(alignment: .leading) {
                         Text("Select Voice")
                             .font(.headline)
                             .foregroundColor(.white)
-
+                        
                         ZStack {
                             Picker("Voice", selection: $selectedVoice) {
                                 ForEach(voices, id: \.self) { voice in
@@ -100,20 +100,20 @@ struct TextToSpeechCard: View {
                                         Image(systemName: "stop.fill")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 20, height: 20)
+                                            .frame(width: 17, height: 17)
                                             .padding(.trailing, 13)
                                     } else {
                                         Image(systemName: "microphone.fill")
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 24, height: 24)
-                                            .padding(.trailing, 13)
+                                            .padding(.trailing, 10)
                                     }
                                 }
                             }
                         }
                     }
-
+                    
                     Button(action: {
                         Task { @MainActor in
                             withAnimation {
@@ -162,14 +162,26 @@ struct TextToSpeechCard: View {
             .animation(.easeInOut, value: stateProvider.showTextToSpeach)
         }
     }
-
+    
     private func playVoicePreview(voice: GenerationVoice) {
-        let player = AVPlayer(url: voice.audioURL)
-        player.play()
-        self.audioPlayer = player
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Failed to set up audio session:", error.localizedDescription)
+        }
+        
+        if let player = audioPlayer, player.timeControlStatus == .playing {
+            player.pause()
+        }
+        
+        let playerItem = AVPlayerItem(url: voice.audioURL)
+        audioPlayer = AVPlayer(playerItem: playerItem)
+        
+        audioPlayer?.play()
         self.isPlaying = true
         
-        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: playerItem, queue: .main) { _ in
             self.isPlaying = false
         }
     }

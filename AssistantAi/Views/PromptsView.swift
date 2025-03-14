@@ -1,4 +1,5 @@
 import SwiftUI
+import SuperwallKit
 
 struct PromptsView: View {
     @StateObject private var viewModel = PromptsViewModel()
@@ -78,7 +79,11 @@ struct PromptsView: View {
     private func taskCard(_ task: AiTask) -> some View {
         Button(action: {
             stateProvider.haptics.impactOccurred()
-            task.onTap()
+            if stateProvider.isSubscribed {
+                task.onTap()
+            } else {
+                Superwall.shared.register(placement: "campaign_trigger")
+            }
         }) {
             VStack(alignment: .leading) {
                 HStack(spacing: 0) {

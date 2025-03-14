@@ -8,29 +8,13 @@ struct ImageDataView: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            ScrollView {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .cornerRadius(12)
-                    .shadow(radius: 5)
-                    .padding()
-            }
-            .frame(maxWidth: .infinity)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        stateProvider.haptics.impactOccurred()
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image("back")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 28, height: 28)
-                    }
-                }
-            }
+            Spacer()
+            
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFit()
+            
+            Spacer()
             
             HStack(spacing: 12) {
                 Button(action: {
@@ -43,7 +27,7 @@ struct ImageDataView: View {
                     }
                     .font(.headline)
                     .foregroundColor(.white)
-                    .padding()
+                    .frame(height: 54)
                     .frame(maxWidth: .infinity)
                     .background(Colors.shared.lightGreen)
                     .cornerRadius(12)
@@ -59,7 +43,7 @@ struct ImageDataView: View {
                     }
                     .font(.headline)
                     .foregroundColor(.white)
-                    .padding()
+                    .frame(height: 54)
                     .frame(maxWidth: .infinity)
                     .background(Colors.shared.darkGreen)
                     .cornerRadius(12)
@@ -67,6 +51,20 @@ struct ImageDataView: View {
                 }
             }
             .padding(.bottom)
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    stateProvider.haptics.impactOccurred()
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image("back")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 28, height: 28)
+                }
+            }
         }
         .padding(.horizontal)
         .background(Colors.shared.backgroundColor)

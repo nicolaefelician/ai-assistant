@@ -7,7 +7,7 @@ final class QwenApi: ApiModel, Hashable {
     ]
     
     var title: String = "Qwen"
-    var description: String = "Alibaba's AI assistant, Qwen, utilizes large language models for enterprise and consumer applications."
+    var description: String = "Alibaba's AI assistant, Qwen, utilizes large language models for enterprise and consumer applications, enhancing productivity and efficiency."
     var image: String = "qwen"
     var modelType: ApiModelType = .qwen
     

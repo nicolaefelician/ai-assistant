@@ -49,7 +49,7 @@ final class AiCodingApi: ApiModel, Hashable {
         
         var messages: [[String: Any]] = [
             [
-                "role": "coding_assistant",
+                "role": "developer",
                 "content": "You are an AI coding assistant, helping users write, debug, and optimize code. You provide explanations for programming concepts, suggest best practices, and generate code snippets in various languages. Whether users need help with algorithms, debugging, or learning new technologies, you offer guidance and support."
             ]
         ]
@@ -89,10 +89,6 @@ final class AiCodingApi: ApiModel, Hashable {
             ],
             "stream": true,
         ]
-        
-        if let data = try? JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted) {
-            print(String(data: data, encoding: .utf8) ?? "")
-        }
         
         var request = URLRequest(url: url)
         

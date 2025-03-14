@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import SuperwallKit
 
 struct ChatView: View {
     @StateObject private var viewModel: ChatViewModel
@@ -69,15 +70,16 @@ struct ChatView: View {
     var body: some View {
         ScrollViewReader { proxy in
             VStack(spacing: 0) {
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     if !viewModel.messages.isEmpty {
                         LazyVStack(spacing: 0) {
                             ForEach(viewModel.messages, id: \.self) { message in
-                                ChatMessageCard(chatMessage: message)
+                                ChatMessageCard(chatMessage: message, fullScreenImage: $viewModel.fullScreenImage)
                                     .padding(.bottom, 20)
                             }
                             Rectangle()
-                                .frame(height: 1)
+                                .frame(height: 15)
+                                .frame(maxWidth: .infinity)
                                 .foregroundStyle(.clear)
                                 .id("BottomPadding")
                         }
@@ -128,11 +130,10 @@ struct ChatView: View {
                                 Label("Take Photo", systemImage: "camera.fill")
                             }
                         } label: {
-                            Image(systemName: "plus.circle")
+                            Image(systemName: "photo.fill")
                                 .foregroundStyle(.white)
                                 .font(.system(size: 22, weight: .medium))
                         }
-                        
                         
                         VStack {
                             if !viewModel.uploadedImages.isEmpty && viewModel.showImages {
@@ -176,6 +177,12 @@ struct ChatView: View {
                         
                         Button(action: {
                             stateProvider.haptics.impactOccurred()
+                            
+                            if !stateProvider.isSubscribed {
+                                Superwall.shared.register(placement: "campaign_trigger")
+                                return
+                            }
+                            
                             if viewModel.inputText.isEmpty { return }
                             
                             viewModel.scrollToBottom(proxy: proxy)
@@ -185,7 +192,7 @@ struct ChatView: View {
                         }) {
                             ZStack {
                                 Circle()
-                                    .fill(Colors.shared.lightGreen)
+                                    .fill(Colors.shared.darkGreen)
                                     .frame(width: 40, height: 40)
                                 
                                 Image("send")
@@ -209,6 +216,37 @@ struct ChatView: View {
         }
         .fullScreenCover(isPresented: $viewModel.showPhotoCameraPicker) {
             ImagePicker(selectedImage: $viewModel.selectedImage, isImagePickerPresented: $viewModel.showPhotoCameraPicker, sourceType: .camera)
+        }
+        .fullScreenCover(isPresented: $viewModel.showFullScreenImage) {
+            VStack {
+                HStack {
+                    Button(action: {
+                        stateProvider.haptics.impactOccurred()
+                        viewModel.showFullScreenImage = false
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(.white)
+                            .padding()
+                    }
+                    
+                    Spacer()
+                }
+                
+                Spacer()
+                
+                if let image = viewModel.fullScreenImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                }
+                
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Colors.shared.backgroundColor)
         }
         .onAppear {
             if let prompt = prompt {

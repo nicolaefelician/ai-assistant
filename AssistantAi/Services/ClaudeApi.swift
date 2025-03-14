@@ -11,7 +11,7 @@ final class ClaudeApi: ApiModel, Hashable {
     
     var modelType: ApiModelType = .claude
     var title: String = "Claude"
-    var description: String = "Claude, created by Anthropic, is an AI assistant designed for safety, reliability, and helpful conversations."
+    var description: String = "Claude, created by Anthropic, is an AI assistant designed for safety, reliability, and helpful, insightful conversations."
     var image: String = "claude"
     
     static var shared: ClaudeApi = ClaudeApi()

@@ -65,6 +65,9 @@ struct AudioDataView: View {
         }
         
         do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+            try AVAudioSession.sharedInstance().setActive(true)
+            
             audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
             audioPlayer?.delegate = audioDelegate
             audioPlayer?.prepareToPlay()
@@ -117,7 +120,7 @@ struct AudioDataView: View {
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
-                    .frame(height: 57)
+                    .frame(height: 54)
                     .frame(maxWidth: .infinity)
                     .background(Colors.shared.lightGreen)
                     .cornerRadius(12)
@@ -135,7 +138,7 @@ struct AudioDataView: View {
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
-                    .frame(height: 57)
+                    .frame(height: 54)
                     .frame(maxWidth: .infinity)
                     .background(Colors.shared.lightGreen)
                     .cornerRadius(12)

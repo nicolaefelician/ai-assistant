@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import SuperwallKit
 
 struct HomeView: View {
     private struct EliteToolItem {
@@ -135,16 +136,29 @@ struct HomeView: View {
                 StateProvider.shared.showImageGeneration = true
             }
         },
-//        EliteToolItem(
-//            title: "Voice Chat",
-//            icon: "mic",
-//            iconRadius: 30,
-//            description: "Engage in real-time conversations with AI using voice input.",
-//            badgeInfo: .init(text: "New", icon: "flame.fill", color: .green),
-//            footerText: nil
-//        ) {
-//            
-//        },
+        //        EliteToolItem(
+        //            title: "Voice Chat",
+        //            icon: "mic",
+        //            iconRadius: 30,
+        //            description: "Engage in real-time conversations with AI using voice input.",
+        //            badgeInfo: .init(text: "New", icon: "flame.fill", color: .green),
+        //            footerText: nil
+        //        ) {
+        //
+        //        },
+        EliteToolItem(
+            title: "YouTube Summary",
+            icon: "youtube",
+            iconRadius: 30,
+            description: "Summarize YouTube videos instantly with AI-powered insights.",
+            badgeInfo: .init(text: "Popular", icon: "chart.bar.fill", color: .orange),
+            footerText: nil
+        ) {
+            withAnimation {
+                StateProvider.shared.isBlurred = true
+                StateProvider.shared.showYoutubeSummary = true
+            }
+        },
         EliteToolItem(
             title: "Text to Speech",
             icon: "tts",
@@ -158,19 +172,6 @@ struct HomeView: View {
                 StateProvider.shared.showTextToSpeach = true
             }
         },
-        EliteToolItem(
-            title: "YouTube Summary",
-            icon: "youtube",
-            iconRadius: 30,
-            description: "Summarize YouTube videos instantly with AI-powered insights.",
-            badgeInfo: .init(text: "Popular", icon: "chart.bar.fill", color: .orange),
-            footerText: nil
-        ) {
-            withAnimation {
-                StateProvider.shared.isBlurred = true
-                StateProvider.shared.showYoutubeSummary = true
-            }
-        }
     ]
     
     private func promptCard(_ prompt: PromptItem) -> some View {
@@ -236,7 +237,11 @@ struct HomeView: View {
     private func eliteToolCard(_ item: EliteToolItem) -> some View {
         Button(action: {
             stateProvider.haptics.impactOccurred()
-            item.onTap()
+            if stateProvider.isSubscribed {
+                item.onTap()
+            } else {
+                Superwall.shared.register(placement: "campaign_trigger")
+            }
         }) {
             VStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 8) {
@@ -304,9 +309,11 @@ struct HomeView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-//                FreePremiumCard()
-//                    .padding(.top, 20)
-//                    .padding(.horizontal, 14)
+                if !stateProvider.isSubscribed {
+                    FreePremiumCard()
+                        .padding(.top, 20)
+                        .padding(.horizontal, 14)
+                }
                 
                 Text("Elite Tools")
                     .foregroundStyle(.white)

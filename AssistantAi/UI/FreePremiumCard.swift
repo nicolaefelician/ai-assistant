@@ -1,4 +1,5 @@
 import SwiftUI
+import SuperwallKit
 
 struct FreePremiumCard: View {
     @ObservedObject private var stateProvider = StateProvider.shared
@@ -6,6 +7,7 @@ struct FreePremiumCard: View {
     var body: some View {
         Button(action: {
             stateProvider.haptics.impactOccurred()
+            Superwall.shared.register(placement: "campaign_trigger")
         }) {
             HStack(alignment: .bottom, spacing: 0) {
                 VStack(alignment: .leading, spacing: 5) {

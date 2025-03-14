@@ -25,11 +25,12 @@ struct SettingsView: View {
                     SettingsButtonView(title: "Rate App", icon: "star.fill")
                 }
 
-//                Button(action: { shareApp() }) {
-//                    SettingsButtonView(title: "Share App", icon: "square.and.arrow.up")
-//                }
+                Button(action: { shareApp() }) {
+                    SettingsButtonView(title: "Share App", icon: "square.and.arrow.up")
+                }
             }
             .padding()
+            .padding(.top, 15)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -59,13 +60,11 @@ struct SettingsView: View {
         requestReview()
     }
 
-//    private func shareApp() {
-//        guard let url = URL(string: "https://apps.apple.com/app/idYOUR_APP_ID") else { return }
-//        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-//        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-//            windowScene.windows.first?.rootViewController?.present(activityVC, animated: true)
-//        }
-//    }
+    private func shareApp() {
+        let url = "https://apps.apple.com/us/app/ai-assistant-ask-chat-bot-now/id6743180672"
+        stateProvider.stringToShare = url
+        stateProvider.isSharing = true
+    }
 }
 
 struct SettingsButtonView: View {
@@ -80,7 +79,7 @@ struct SettingsButtonView: View {
 
             Text(title)
                 .foregroundColor(.white)
-                .font(.headline)
+                .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 17))
 
             Spacer()
 

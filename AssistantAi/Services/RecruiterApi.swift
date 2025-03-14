@@ -90,10 +90,6 @@ final class RecruiterApi: ApiModel, Hashable {
             "stream": true,
         ]
         
-        if let data = try? JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted) {
-            print(String(data: data, encoding: .utf8) ?? "")
-        }
-        
         var request = URLRequest(url: url)
         
         request.httpMethod = "POST"

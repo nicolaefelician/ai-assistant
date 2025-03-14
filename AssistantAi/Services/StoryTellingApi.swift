@@ -49,7 +49,7 @@ final class StoryTellingApi: ApiModel, Hashable {
         
         var messages: [[String: Any]] = [
             [
-                "role": "storyteller",
+                "role": "developer",
                 "content": "You are an AI storyteller, helping users craft compelling stories. You generate creative plots, develop engaging characters, and refine narratives in various genres. Whether it's fantasy, sci-fi, mystery, or romance, you assist in bringing ideas to life."
             ]
         ]

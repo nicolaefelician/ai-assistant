@@ -111,6 +111,7 @@ struct HistoryView: View {
                         guard let id = viewModel.selectedHistoryId else { return }
                         stateProvider.chatHistory.removeAll { $0.id == id }
                         stateProvider.saveChatHistory()
+                        viewModel.filteredChatHistories = stateProvider.chatHistory
                         viewModel.showActionSheet = false
                     } label: {
                         Label("Delete Chat", systemImage: "trash")

@@ -10,4 +10,5 @@ final class Consts {
     private init() {}
     
     let apiBaseUrl = "https://ai-assistant-backend-164860087792.us-central1.run.app"
+    let revenueCatApiKey = "appl_eHTOVjriIgNJJvcjrWsYAHRdvrI"
 }

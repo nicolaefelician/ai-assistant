@@ -1,15 +1,17 @@
 import Foundation
 import SwiftUI
+import RevenueCat
 
 final class StateProvider: ObservableObject {
     static let shared = StateProvider()
     
     private init() {
         self.haptics.prepare()
-        loadChatHistory()
     }
     
     let haptics = UIImpactFeedbackGenerator(style: .medium)
+    
+    @Published var isSubscribed: Bool = false
     
     @Published var path: [NavigationDestination] = []
     
@@ -24,7 +26,7 @@ final class StateProvider: ObservableObject {
     @Published var imageToShare: UIImage? = nil
     @Published var isSharing: Bool = false
     
-    @Published var showOnboarding = true
+    @Published var showOnboarding = false
     
     @Published var showYoutubeSummary: Bool = false
     @Published var showImageGeneration: Bool = false
@@ -45,7 +47,16 @@ final class StateProvider: ObservableObject {
         }
     }
     
-    private func loadChatHistory() {
+    func completeOnboarding() {
+        UserDefaults.standard.set(true, forKey: "onboardingCompleted")
+        showOnboarding = false
+    }
+    
+    func loadContent() {
+        Purchases.shared.getCustomerInfo { (customerInfo, error) in
+            self.isSubscribed = customerInfo?.entitlements.all["Pro"]?.isActive == true
+        }
+        showOnboarding = !UserDefaults.standard.bool(forKey: "onboardingCompleted")
         let fileURL = getChatHistoryFileURL()
         do {
             let data = try Data(contentsOf: fileURL)

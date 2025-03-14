@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChatMessageCard: View {
     @ObservedObject var chatMessage: ChatMessage
+    @Binding var fullScreenImage: UIImage?
     
     private struct TypingIndicatorView: View {
         @State private var animate = false
@@ -38,7 +39,7 @@ struct ChatMessageCard: View {
                         ForEach(Array(chatMessage.images.enumerated()), id: \.offset) { index, image in
                             if let imageData = Data(base64Encoded: image), let image = UIImage(data: imageData) {
                                 Button(action: {
-                                    
+                                    fullScreenImage = image
                                 }) {
                                     Image(uiImage: image)
                                         .resizable()
@@ -59,24 +60,26 @@ struct ChatMessageCard: View {
                     
                     Text(chatMessage.sendText)
                         .font(.custom(Fonts.shared.interMedium, size: 16))
+                        .multilineTextAlignment(.leading)
                         .foregroundStyle(.white)
                         .padding(11)
                         .background(Colors.shared.cardColor)
                         .cornerRadius(11)
                 }
-                .frame(maxWidth: .infinity)
             }
             
-            HStack(alignment: .top, spacing: 16) {
+            HStack(alignment: .top, spacing: 13) {
                 Image(chatMessage.responseIcon)
                     .resizable()
-                    .frame(width: 32, height: 32)
-                    .cornerRadius(16)
+                    .frame(width: 38, height: 38)
+                    .cornerRadius(19)
                 
                 if let responseText = chatMessage.responseText {
                     Text(responseText)
                         .font(.custom(Fonts.shared.interRegular, size: 16))
                         .foregroundStyle(.white)
+                        .multilineTextAlignment(.leading)
+                        .textSelection(.enabled)
                 } else {
                     TypingIndicatorView()
                 }
