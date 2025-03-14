@@ -93,7 +93,7 @@ struct PDFSummaryCard: View {
                                 stateProvider.path.append(.summaryView(text: summary))
                             } catch {
                                 withAnimation {
-                                    stateProvider.errorMessage = error.localizedDescription
+                                    stateProvider.errorMessage = "Couldn't summarize the PDF. Make sure the file is valid and try again."
                                     stateProvider.showError = true
                                 }
                             }

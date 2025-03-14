@@ -75,7 +75,7 @@ final class ChatViewModel: ObservableObject {
         
         self.messages[self.messages.count - 1] = chatMessage
         
-        if var history = self.chatHistory {
+        if let history = self.chatHistory {
             let index = stateProvider.chatHistory.firstIndex(of: history)!
             history.messages = messages
             self.chatHistory = history

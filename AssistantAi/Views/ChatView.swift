@@ -111,36 +111,10 @@ struct ChatView: View {
                 .frame(maxWidth: .infinity)
                 .background(Colors.shared.backgroundColor)
                 
+                Divider()
+                    .padding(.bottom, 11.5)
+                
                 VStack(spacing: 0) {
-                    if !viewModel.uploadedImages.isEmpty && viewModel.showImages {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack(spacing: 10) {
-                                ForEach(Array(viewModel.uploadedImages.enumerated()), id: \.offset) { index, image in
-                                    ZStack(alignment: .topTrailing) {
-                                        Image(uiImage: image)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 80, height: 80)
-                                            .cornerRadius(10)
-                                            .clipped()
-                                        
-                                        Button(action: {
-                                            viewModel.uploadedImages.remove(at: index)
-                                        }) {
-                                            Image(systemName: "xmark.circle.fill")
-                                                .foregroundColor(.gray)
-                                                .background(Color.white.clipShape(Circle()))
-                                        }
-                                        .offset(x: -5, y: 7)
-                                    }
-                                }
-                            }
-                            .padding(.horizontal, 14)
-                        }
-                        .frame(height: 80)
-                        .padding(.top, 10)
-                    }
-                    
                     HStack {
                         Menu {
                             Button(action: {
@@ -154,19 +128,52 @@ struct ChatView: View {
                                 Label("Take Photo", systemImage: "camera.fill")
                             }
                         } label: {
-                            Image(systemName: "plus")
+                            Image(systemName: "plus.circle")
                                 .foregroundStyle(.white)
-                                .font(.system(size: 19, weight: .medium))
+                                .font(.system(size: 21, weight: .medium))
                         }
                         
                         
-                        TextField("Ask a question", text: $viewModel.inputText, axis: .vertical)
-                            .focused($isFocused)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 7)
-                            .background(Colors.shared.cardColor)
-                            .lineLimit(1...5)
-                            .autocorrectionDisabled()
+                        VStack {
+                            if !viewModel.uploadedImages.isEmpty && viewModel.showImages {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    LazyHStack(spacing: 10) {
+                                        ForEach(Array(viewModel.uploadedImages.enumerated()), id: \.offset) { index, image in
+                                            ZStack(alignment: .topTrailing) {
+                                                Image(uiImage: image)
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 80, height: 80)
+                                                    .cornerRadius(10)
+                                                    .clipped()
+                                                
+                                                Button(action: {
+                                                    viewModel.uploadedImages.remove(at: index)
+                                                }) {
+                                                    Image(systemName: "xmark.circle.fill")
+                                                        .foregroundColor(.gray)
+                                                        .background(Color.white.clipShape(Circle()))
+                                                }
+                                                .offset(x: -5, y: 7)
+                                            }
+                                        }
+                                    }
+                                    .padding(.horizontal, 14)
+                                }
+                                .frame(height: 80)
+                                .padding(.bottom, 10)
+                            }
+                            
+                            TextField("Ask a question", text: $viewModel.inputText, axis: .vertical)
+                                .focused($isFocused)
+                                .padding(.leading, 16)
+                                .lineLimit(1...5)
+                                .autocorrectionDisabled()
+                        }
+                        .padding(.vertical, 13)
+                        .background(Colors.shared.cardColor)
+                        .cornerRadius(26)
+                        .padding(.horizontal, 2.5)
                         
                         Button(action: {
                             stateProvider.haptics.impactOccurred()
@@ -190,14 +197,6 @@ struct ChatView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 15)
-                .padding(.vertical, 8)
-                .background(Colors.shared.cardColor)
-                .clipShape(RoundedCornerShape(radius: 30, corners: .allCorners))
-                .overlay(
-                    RoundedCornerShape(radius: 30, corners: .allCorners)
-                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                )
                 .padding(.horizontal, 13)
                 .padding(.bottom, 13)
                 .onAppear {

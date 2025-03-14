@@ -85,8 +85,8 @@ struct LyricsGenerationPopup: View {
                                 stateProvider.path.append(.summaryView(text: lyrics))
                             } catch {
                                 withAnimation {
-                                    stateProvider.errorMessage = error.localizedDescription
-                                    stateProvider.showError = false
+                                    stateProvider.errorMessage = "Couldn't generate lyrics. Try a different prompt or check your connection."
+                                    stateProvider.showError = true
                                 }
                             }
                             

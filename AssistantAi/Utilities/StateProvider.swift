@@ -24,7 +24,7 @@ final class StateProvider: ObservableObject {
     @Published var imageToShare: UIImage? = nil
     @Published var isSharing: Bool = false
     
-    @Published var showOnboarding = false
+    @Published var showOnboarding = true
     
     @Published var showYoutubeSummary: Bool = false
     @Published var showImageGeneration: Bool = false

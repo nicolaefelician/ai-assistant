@@ -13,8 +13,17 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 struct AssistantAiApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    @ObservedObject private var stateProvider = StateProvider.shared
+    
     var body: some Scene {
         WindowGroup {
+//            if stateProvider.showOnboarding {
+//                OnboardingView()
+//                    .preferredColorScheme(.dark)
+//            } else {
+//                ContentView()
+//                    .preferredColorScheme(.dark)
+//            }
             ContentView()
                 .preferredColorScheme(.dark)
         }

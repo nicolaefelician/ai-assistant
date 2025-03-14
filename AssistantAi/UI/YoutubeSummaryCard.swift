@@ -74,8 +74,8 @@ struct YoutubeSummaryCard: View {
                                 stateProvider.path.append(.summaryView(text: summary))
                             } catch {
                                 withAnimation {
-                                    stateProvider.errorMessage = error.localizedDescription
-                                    stateProvider.showError = false
+                                    stateProvider.errorMessage = "Video summary failed. Check the link and try again."
+                                    stateProvider.showError = true
                                 }
                             }
                             

@@ -75,7 +75,7 @@ final class ChatGptApi: ApiModel, Hashable {
         
         headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
         
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, _) = try await URLSession.shared.data(for: request)
         
         let tempFileUrl = FileManager.default.temporaryDirectory.appendingPathComponent("speech.mp3")
         

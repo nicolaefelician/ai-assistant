@@ -25,9 +25,9 @@ struct SettingsView: View {
                     SettingsButtonView(title: "Rate App", icon: "star.fill")
                 }
 
-                Button(action: { shareApp() }) {
-                    SettingsButtonView(title: "Share App", icon: "square.and.arrow.up")
-                }
+//                Button(action: { shareApp() }) {
+//                    SettingsButtonView(title: "Share App", icon: "square.and.arrow.up")
+//                }
             }
             .padding()
         }
@@ -59,13 +59,13 @@ struct SettingsView: View {
         requestReview()
     }
 
-    private func shareApp() {
-        guard let url = URL(string: "https://apps.apple.com/app/idYOUR_APP_ID") else { return }
-        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            windowScene.windows.first?.rootViewController?.present(activityVC, animated: true)
-        }
-    }
+//    private func shareApp() {
+//        guard let url = URL(string: "https://apps.apple.com/app/idYOUR_APP_ID") else { return }
+//        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+//        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+//            windowScene.windows.first?.rootViewController?.present(activityVC, animated: true)
+//        }
+//    }
 }
 
 struct SettingsButtonView: View {

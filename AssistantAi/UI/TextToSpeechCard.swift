@@ -127,7 +127,7 @@ struct TextToSpeechCard: View {
                                 stateProvider.path.append(.audioDataView(audioPath: text))
                             } catch {
                                 withAnimation {
-                                    stateProvider.errorMessage = error.localizedDescription
+                                    stateProvider.errorMessage = "Speech generation failed. Check your internet or try a different text."
                                     stateProvider.showError = true
                                 }
                             }

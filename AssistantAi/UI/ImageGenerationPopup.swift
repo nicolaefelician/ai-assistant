@@ -42,15 +42,9 @@ struct ImageGenerationPopup: View {
         ArtStyleInfo(title: "Tile Art", value: "tile-art"),
         ArtStyleInfo(title: "Line Art", value: "line-art"),
         ArtStyleInfo(title: "Low Poly", value: "low-poly"),
-        ArtStyleInfo(title: "Neon Punk", value: "neon-punk"),
-        ArtStyleInfo(title: "Origami", value: "origami"),
-        ArtStyleInfo(title: "Photographic", value: "photographic"),
         ArtStyleInfo(title: "Isometric", value: "isometric"),
         ArtStyleInfo(title: "Comic", value: "comic"),
-        ArtStyleInfo(title: "Anime", value: "anime"),
         ArtStyleInfo(title: "Digital Art", value: "digital-art"),
-        ArtStyleInfo(title: "Neon Punk", value: "neon-punk"),
-        ArtStyleInfo(title: "Origami", value: "origami")
     ]
     
     var body: some View {
@@ -137,12 +131,13 @@ struct ImageGenerationPopup: View {
                                 }
                                 
                                 do {
-                                    let image = try await StableDiffusionApi.shared.generateImage(prompt, aspectRatio: selectedAspectRatio, style: selectedArtStyle.value)
-                                    
-                                    stateProvider.path.append(.imageDataView(image: image))
+//                                    let image = try await StableDiffusionApi.shared.generateImage(prompt, aspectRatio: selectedAspectRatio, style: selectedArtStyle.value)
+//                                    
+//                                    stateProvider.path.append(.imageDataView(image: image))
+                                    throw URLError(.badURL)
                                 } catch {
                                     withAnimation {
-                                        stateProvider.errorMessage = error.localizedDescription
+                                        stateProvider.errorMessage = "Oops! Something went wrong while generating your image. Please try again later."
                                         stateProvider.showError = true
                                     }
                                 }
