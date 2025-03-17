@@ -13,20 +13,24 @@ struct SettingsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                Button(action: { openUrl(privacyPolicyUrl) }) {
-                    SettingsButtonView(title: "Privacy Policy", icon: "lock.shield")
-                }
-
-                Button(action: { openUrl(termsOfUseUrl) }) {
-                    SettingsButtonView(title: "Terms of Use", icon: "doc.text")
-                }
-
                 Button(action: { rateApp() }) {
                     SettingsButtonView(title: "Rate App", icon: "star.fill")
                 }
 
                 Button(action: { shareApp() }) {
                     SettingsButtonView(title: "Share App", icon: "square.and.arrow.up")
+                }
+                
+                Button(action: { contactUs() }) {
+                    SettingsButtonView(title: "Contact us", icon: "ellipsis.message.fill")
+                }
+                
+                Button(action: { openUrl(privacyPolicyUrl) }) {
+                    SettingsButtonView(title: "Privacy Policy", icon: "lock.shield")
+                }
+
+                Button(action: { openUrl(termsOfUseUrl) }) {
+                    SettingsButtonView(title: "Terms of Use", icon: "doc.text")
                 }
             }
             .padding()
@@ -50,7 +54,22 @@ struct SettingsView: View {
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
     }
-
+    
+    private func contactUs() {
+        let email = "feliciannicolae433@gmail.com"
+        let subject = "Support Request"
+        let body = "Hi, I need help with... (AI Assistant 1.0.6)"
+        let mailtoURL = "mailto:\(email)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&body=\(body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
+        
+        if let url = URL(string: mailtoURL) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            } else {
+                print("Mail app is not available")
+            }
+        }
+    }
+    
     private func openUrl(_ urlString: String) {
         guard let url = URL(string: urlString) else { return }
         UIApplication.shared.open(url)

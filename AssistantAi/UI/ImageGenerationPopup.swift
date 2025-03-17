@@ -158,6 +158,7 @@ struct ImageGenerationPopup: View {
                         .disabled(prompt.isEmpty)
                     }
                 }
+                .frame(width: 450)
                 .padding()
                 .background(Color.black.opacity(0.8))
                 .cornerRadius(16)

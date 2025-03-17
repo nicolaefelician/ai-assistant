@@ -12,7 +12,6 @@ struct HomeView: View {
         
         let title: String
         let icon: String
-        let iconRadius: Int
         let description: String
         let badgeInfo: BadgeInfo?
         let footerText: String?
@@ -126,7 +125,6 @@ struct HomeView: View {
         EliteToolItem(
             title: "AI Image Generator",
             icon: "image-gen",
-            iconRadius: 30,
             description: "Generate stunning AI-powered images from text prompts.",
             badgeInfo: .init(text: "Trending", icon: "star.fill", color: .blue),
             footerText: "Developed on SD3.5"
@@ -149,7 +147,6 @@ struct HomeView: View {
         EliteToolItem(
             title: "YouTube Summary",
             icon: "youtube",
-            iconRadius: 30,
             description: "Summarize YouTube videos instantly with AI-powered insights.",
             badgeInfo: .init(text: "Popular", icon: "chart.bar.fill", color: .orange),
             footerText: nil
@@ -162,7 +159,6 @@ struct HomeView: View {
         EliteToolItem(
             title: "Text to Speech",
             icon: "tts",
-            iconRadius: 30,
             description: "Convert any text into natural-sounding AI-generated speech.",
             badgeInfo: nil,
             footerText: "Powered by Whisper"
@@ -182,13 +178,13 @@ struct HomeView: View {
             HStack {
                 Text(prompt.prompt)
                     .foregroundColor(.white)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.system(size: stateProvider.isIpad ? 20 : 16, weight: .medium))
                     .multilineTextAlignment(.leading)
                 
                 Spacer()
                 
                 Text(prompt.image)
-                    .font(.system(size: 22))
+                    .font(.system(size: stateProvider.isIpad ? 30 : 22))
             }
             .padding()
             .background(Colors.shared.cardColor)
@@ -207,24 +203,25 @@ struct HomeView: View {
                     Image(assistant.image)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 45, height: 45)
+                        .frame(width: stateProvider.isIpad ? 65 : 45, height: stateProvider.isIpad ? 65 : 45)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .shadow(radius: 4)
                     
                     Text(assistant.title)
-                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 16))
+                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 22 : 16))
                         .foregroundStyle(.white)
                     
                     Spacer()
                 }
+                .padding(.leading, stateProvider.isIpad ? 5 : 0)
                 
                 Text(assistant.description)
-                    .font(.custom(Fonts.shared.interRegular, size: 13))
+                    .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 17 : 13))
                     .foregroundStyle(.gray)
                     .lineLimit(4)
                     .multilineTextAlignment(.leading)
             }
-            .frame(width: 220, height: 120)
+            .frame(width: stateProvider.isIpad ? 320 : 220, height: stateProvider.isIpad ? 150 : 120)
             .padding(12)
             .background(
                 RoundedRectangle(cornerRadius: 17)
@@ -249,8 +246,8 @@ struct HomeView: View {
                         Image(item.icon)
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 60, height: 60)
-                            .cornerRadius(Double(item.iconRadius))
+                            .frame(width: stateProvider.isIpad ? 80 : 60, height: stateProvider.isIpad ? 80 : 60)
+                            .cornerRadius(stateProvider.isIpad ? 40 : 30)
                             .padding(.top, 10)
                         
                         Spacer()
@@ -259,22 +256,22 @@ struct HomeView: View {
                             HStack(spacing: 5) {
                                 Image(systemName: badge.icon)
                                 Text(badge.text)
-                                    .font(.custom(Fonts.shared.interRegular, size: 13))
+                                    .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 18 : 13))
                             }
                             .foregroundColor(.white)
                             .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
+                            .padding(.vertical, stateProvider.isIpad ? 8 : 4)
                             .background(badge.color)
                             .clipShape(Capsule())
                         }
                     }
                     
                     Text(item.title)
-                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 18))
+                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 22 : 18))
                         .foregroundColor(.white)
                     
                     Text(item.description)
-                        .font(.custom(Fonts.shared.interRegular, size: 13))
+                        .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 17 : 13))
                         .foregroundColor(.gray)
                 }
                 .padding(.horizontal, 12)
@@ -295,7 +292,7 @@ struct HomeView: View {
                     .clipShape(RoundedCornerShape(radius: 15, corners: [.bottomLeft, .bottomRight]))
                 }
             }
-            .frame(width: 210, height: 180)
+            .frame(width: stateProvider.isIpad ? 300 : 210, height: stateProvider.isIpad ? 240 : 180)
             .background(Colors.shared.cardColor)
             .clipShape(RoundedRectangle(cornerRadius: 15))
         }
@@ -312,15 +309,15 @@ struct HomeView: View {
                 if !stateProvider.isSubscribed {
                     FreePremiumCard()
                         .padding(.top, 20)
-                        .padding(.horizontal, 14)
+                        .padding(.horizontal, stateProvider.isIpad ? 60 : 14)
                 }
                 
                 Text("Elite Tools")
                     .foregroundStyle(.white)
                     .fontWeight(.bold)
-                    .font(.title2)
+                    .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 35 : 24))
                     .padding(.top, 20)
-                    .padding(.leading, 14)
+                    .padding(.leading, stateProvider.isIpad ? 60 : 14)
                     .onAppear {
                         AnalyticsManager.shared.logEvent(name: "app_launch")
                     }
@@ -328,7 +325,7 @@ struct HomeView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 0) {
                         Rectangle()
-                            .frame(width: 14)
+                            .frame(width: stateProvider.isIpad ? 60 : 14)
                             .foregroundStyle(.clear)
                         HStack {
                             ForEach(tools, id: \.title) { tool in
@@ -336,7 +333,7 @@ struct HomeView: View {
                             }
                         }
                         Rectangle()
-                            .frame(width: 14)
+                            .frame(width: stateProvider.isIpad ? 60 : 14)
                             .foregroundStyle(.clear)
                     }
                 }
@@ -344,14 +341,14 @@ struct HomeView: View {
                 Text("Assistants")
                     .foregroundStyle(.white)
                     .fontWeight(.bold)
-                    .font(.title2)
+                    .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 35 : 24))
                     .padding(.top, 20)
-                    .padding(.leading, 14)
+                    .padding(.leading, stateProvider.isIpad ? 60 : 14)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 0) {
                         Rectangle()
-                            .frame(width: 14)
+                            .frame(width: stateProvider.isIpad ? 60 : 14)
                             .foregroundStyle(.clear)
                         HStack {
                             ForEach(assistants, id: \.title) { assistant in
@@ -359,7 +356,7 @@ struct HomeView: View {
                             }
                         }
                         Rectangle()
-                            .frame(width: 14)
+                            .frame(width: stateProvider.isIpad ? 60 : 14)
                             .foregroundStyle(.clear)
                     }
                 }
@@ -367,14 +364,14 @@ struct HomeView: View {
                 Text("Popular Prompts")
                     .foregroundStyle(.white)
                     .fontWeight(.bold)
-                    .font(.title2)
+                    .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 35 : 24))
                     .padding(.top, 20)
-                    .padding(.leading, 14)
+                    .padding(.leading, stateProvider.isIpad ? 60 : 14)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 0) {
                         Rectangle()
-                            .frame(width: 14)
+                            .frame(width: stateProvider.isIpad ? 60 : 14)
                             .foregroundStyle(.clear)
                         ForEach(Array(PromptItemCategory.allCases), id: \.rawValue) { tool in
                             Button(action: {
@@ -383,7 +380,7 @@ struct HomeView: View {
                             }) {
                                 HStack {
                                     Text(tool.rawValue)
-                                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 16))
+                                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 20 : 16))
                                         .foregroundColor(.white)
                                 }
                                 .padding(8)
@@ -397,7 +394,7 @@ struct HomeView: View {
                             }
                         }
                         Rectangle()
-                            .frame(width: 14)
+                            .frame(width: stateProvider.isIpad ? 60 : 14)
                             .foregroundStyle(.clear)
                     }
                     .padding(.vertical, 2)
@@ -409,7 +406,7 @@ struct HomeView: View {
                         promptCard(prompt)
                     }
                 }
-                .padding(.horizontal, 14)
+                .padding(.horizontal, stateProvider.isIpad ? 60 : 14)
                 .padding(.bottom, 25)
             }
         }

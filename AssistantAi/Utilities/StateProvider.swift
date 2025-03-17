@@ -28,6 +28,8 @@ final class StateProvider: ObservableObject {
     
     @Published var showOnboarding = false
     
+    @Published var isIpad: Bool = UIDevice.current.userInterfaceIdiom == .pad
+    
     @Published var showYoutubeSummary: Bool = false
     @Published var showImageGeneration: Bool = false
     @Published var showLyricsGeneration: Bool = false

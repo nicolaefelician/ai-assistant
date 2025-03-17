@@ -18,13 +18,23 @@ final class ChatViewModel: ObservableObject {
     
     @ObservedObject private var stateProvider = StateProvider.shared
     
+    @Published var isWriting: Bool = false
+    
     @Published var pickedModel: [String:String?] = ["key": nil, "value": nil]
     
     private var cancellables = Set<AnyCancellable>()
+    private var responseTask: Task<Void, Never>?
     
     let apiModel: any ApiModel
     @Published var messages: [ChatMessage]
     var chatHistory: ChatHistoryItem?
+    
+    @MainActor
+    func cancelResponse() {
+        responseTask?.cancel()
+        isWriting = false
+        responseTask = nil
+    }
     
     func getShareString() -> String {
         var stringToShare = ""
@@ -60,33 +70,41 @@ final class ChatViewModel: ObservableObject {
         let chatMessage = ChatMessage(id: UUID(), sendText: temp, responseIcon: apiModel.image, images: images)
         messages.append(chatMessage)
         self.showImages = false
+        self.isWriting = true
         
-        do {
-            let stream = try await apiModel.getChatResponse(message: temp, history: messages.dropLast(), images: images, version: (pickedModel["value"] ?? "gpt-4o-mini") ?? "gpt-4o-mini")
-            
-            for try await line in stream {
-                if Task.isCancelled { break }
-                streamText += line
-                chatMessage.responseText = streamText
-                self.messages[self.messages.count - 1] = chatMessage
+        responseTask = Task {
+            do {
+                let stream = try await apiModel.getChatResponse(message: temp, history: messages.dropLast(), images: images, version: (pickedModel["value"] ?? "gpt-4o-mini") ?? "gpt-4o-mini")
+                
+                for try await line in stream {
+                    if Task.isCancelled { break }
+                    streamText += line
+                    chatMessage.responseText = streamText
+                    self.messages[self.messages.count - 1] = chatMessage
+                }
+                self.uploadedImages.removeAll()
+            } catch let error as NSError {
+                if error.domain == NSURLErrorDomain && error.code == -999 {
+                    print("User cancelled the task.")
+                } else {
+                    chatMessage.responseError = "Unexpected issue occurred while processing your request. Please try again later."
+                }
             }
-            self.uploadedImages.removeAll()
-        } catch {
-            print("Caught an error: \(error)")
+            
+            self.messages[self.messages.count - 1] = chatMessage
+            self.isWriting = false
+            
+            if let history = self.chatHistory {
+                let index = stateProvider.chatHistory.firstIndex(of: history)!
+                history.messages = messages
+                self.chatHistory = history
+                stateProvider.chatHistory[index] = history
+            } else {
+                stateProvider.chatHistory.append(ChatHistoryItem(id: UUID(), messages: messages, apiModelType: apiModel.modelType))
+                self.chatHistory = stateProvider.chatHistory.last
+            }
+            stateProvider.saveChatHistory()
         }
-        
-        self.messages[self.messages.count - 1] = chatMessage
-        
-        if let history = self.chatHistory {
-            let index = stateProvider.chatHistory.firstIndex(of: history)!
-            history.messages = messages
-            self.chatHistory = history
-            stateProvider.chatHistory[index] = history
-        } else {
-            stateProvider.chatHistory.append(ChatHistoryItem(id: UUID(), messages: messages, apiModelType: apiModel.modelType))
-            self.chatHistory = stateProvider.chatHistory.last
-        }
-        stateProvider.saveChatHistory()
     }
     
     init(apiModel: any ApiModel, chatHistory: ChatHistoryItem?) {
@@ -103,7 +121,7 @@ final class ChatViewModel: ObservableObject {
         .store(in: &cancellables)
         
         $fullScreenImage.sink { newImage in
-            guard let image = newImage else { return }
+            if newImage == nil { return }
             
             self.showFullScreenImage = true
         }

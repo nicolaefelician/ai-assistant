@@ -68,10 +68,10 @@ struct PromptsView: View {
                 StateProvider.shared.showLyricsGeneration = true
             }
         },
-        AiTask(title: "Insights", subTitle: "Invest with insight", image: "insights_icon", backgroundColor: Color.red, cardHeight: 107, position: .rightBottom) {
+        AiTask(title: "Insights", subTitle: "Invest with insight", image: "insights_icon", backgroundColor: Color.brown, cardHeight: 107, position: .rightBottom) {
             StateProvider.shared.path.append(.chatView(modelType: .invest))
         },
-        AiTask(title: "Math", subTitle: "Snap and solve math equations", image: "math_icon", backgroundColor: Color.brown, cardHeight: 200, position: .bottom) {
+        AiTask(title: "Math", subTitle: "Snap a picture and solve math equations instantly", image: "math_icon", backgroundColor: Color.indigo, cardHeight: 225, position: .bottom) {
             StateProvider.shared.showPhotoCamera = true
         }
     ]
@@ -99,9 +99,9 @@ struct PromptsView: View {
                     }
                     .padding(.top, task.position == .bottom ? 10 : 0)
                     
+                    Spacer()
+                    
                     if task.position == .rightTop || task.position == .rightBottom || task.position == .right {
-                        Spacer()
-                        
                         VStack(alignment: .trailing) {
                             if task.position == .rightBottom {
                                 Spacer()
@@ -110,7 +110,7 @@ struct PromptsView: View {
                             Image(task.image)
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: 70, height: 90)
+                                .frame(width: stateProvider.isIpad ? 100 : 70, height: stateProvider.isIpad ? 130 : 90)
                             
                             if task.position == .rightTop {
                                 Spacer()
@@ -125,13 +125,13 @@ struct PromptsView: View {
                     Image(task.image)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 150, height: 88)
+                        .frame(width: stateProvider.isIpad ? 180 : 150, height: stateProvider.isIpad ? 120 : 88)
                         .padding(.bottom, 8)
                 }
             }
             .frame(maxWidth: .infinity)
             .frame(height: task.cardHeight)
-            .padding(.leading, 10)
+            .padding(.leading, stateProvider.isIpad ? 25 : 10)
             .background(task.backgroundColor)
             .cornerRadius(14)
             .fullScreenCover(isPresented: $stateProvider.showPhotoCamera) {
@@ -159,7 +159,7 @@ struct PromptsView: View {
                 
                 HStack {
                     Text("Tasks")
-                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 25))
+                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 35 : 25))
                         .foregroundStyle(.white)
                     
                     Spacer()
@@ -182,7 +182,7 @@ struct PromptsView: View {
                     .frame(maxWidth: .infinity)
                 }
             }
-            .padding(.horizontal, 14)
+            .padding(.horizontal, stateProvider.isIpad ? 70 : 14)
             .padding(.vertical, 20)
         }
         .background(Colors.shared.backgroundColor)

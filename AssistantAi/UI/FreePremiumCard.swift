@@ -9,24 +9,24 @@ struct FreePremiumCard: View {
             stateProvider.haptics.impactOccurred()
             Superwall.shared.register(placement: "campaign_trigger")
         }) {
-            HStack(alignment: .bottom, spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 5) {
                         Text("Try AI Assistant")
-                            .font(.custom(Fonts.shared.interMedium, size: 18))
+                            .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 24 : 18))
                         
                         Text("PRO")
-                            .font(.custom(Fonts.shared.interMedium, size: 18))
+                            .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 24 : 18))
                         
                         Text("for free!")
-                            .font(.custom(Fonts.shared.interMedium, size: 18))
+                            .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 24 : 18))
                     }
                     .font(.system(size: 18))
                     .foregroundStyle(.white)
                     
                     Text("Tap to claim your offer now.")
                         .foregroundStyle(.white.opacity(0.7))
-                        .font(.custom(Fonts.shared.interRegular, size: 14))
+                        .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 18 : 14))
                 }
                 .padding(.bottom, 20)
                 .padding(.leading, 12)
@@ -37,7 +37,7 @@ struct FreePremiumCard: View {
                 Image("bot")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 80, height: 85)
+                    .frame(width: stateProvider.isIpad ? 120 : 80, height: stateProvider.isIpad ? 130 : 85)
             }
             
             .background(

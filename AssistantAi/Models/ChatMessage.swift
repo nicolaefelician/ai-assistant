@@ -4,6 +4,7 @@ final class ChatMessage: Identifiable, Codable, Equatable, Hashable, ObservableO
     let id: UUID
     let sendText: String
     @Published var responseText: String?
+    @Published var responseError: String?
     let responseIcon: String
     let images: [String]
     
@@ -15,16 +16,17 @@ final class ChatMessage: Identifiable, Codable, Equatable, Hashable, ObservableO
         hasher.combine(id)
     }
     
-    init(id: UUID, sendText: String, responseText: String? = nil, responseIcon: String, images: [String]) {
+    init(id: UUID, sendText: String, responseText: String? = nil, responseIcon: String, images: [String], responseError: String? = nil) {
         self.id = id
         self.sendText = sendText
         self.responseText = responseText
         self.responseIcon = responseIcon
         self.images = images
+        self.responseError = responseError
     }
     
     enum CodingKeys: String, CodingKey {
-        case id, sendText, responseText, responseIcon, images
+        case id, sendText, responseText, responseIcon, images, responseError
     }
     
     func encode(to encoder: Encoder) throws {
@@ -34,6 +36,7 @@ final class ChatMessage: Identifiable, Codable, Equatable, Hashable, ObservableO
         try container.encode(responseText, forKey: .responseText)
         try container.encode(responseIcon, forKey: .responseIcon)
         try container.encode(images, forKey: .images)
+        try container.encode(responseError, forKey: .responseError)
     }
     
     required init(from decoder: Decoder) throws {
@@ -43,5 +46,6 @@ final class ChatMessage: Identifiable, Codable, Equatable, Hashable, ObservableO
         self.responseText = try container.decodeIfPresent(String.self, forKey: .responseText)
         self.responseIcon = try container.decode(String.self, forKey: .responseIcon)
         self.images = try container.decode([String].self, forKey: .images)
+        self.responseError = try container.decodeIfPresent(String.self, forKey: .responseError)
     }
 }

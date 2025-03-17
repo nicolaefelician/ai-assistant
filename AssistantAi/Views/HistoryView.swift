@@ -43,18 +43,18 @@ struct HistoryView: View {
                     Image("message")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 80, height: 80)
+                        .frame(width: stateProvider.isIpad ? 120 : 80, height: stateProvider.isIpad ? 120 : 80)
                     
                     Text("No Chat History")
-                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 21))
+                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 30 : 21))
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                     
                     Text("Start a conversation and your chat history will appear here.")
-                        .font(.custom(Fonts.shared.interRegular, size: 17))
+                        .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 20 : 17))
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 43)
+                        .padding(.horizontal, stateProvider.isIpad ? 70 : 43)
                 }
                 .padding(.top, UIScreen.main.bounds.height * 0.27)
                 .frame(maxWidth: .infinity)
@@ -76,7 +76,7 @@ struct HistoryView: View {
                     
                     HStack {
                         Text("History")
-                            .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 25))
+                            .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 35 : 25))
                             .foregroundStyle(.white)
                         
                         Spacer()
@@ -97,7 +97,7 @@ struct HistoryView: View {
                         viewModel.filteredChatHistories = stateProvider.chatHistory
                     }
                 }
-                .padding(.horizontal, 14)
+                .padding(.horizontal, stateProvider.isIpad ? 60 : 14)
                 .padding(.vertical, 20)
                 .confirmationDialog("Choose Action", isPresented: $viewModel.showActionSheet, titleVisibility: .visible) {
                     Button(role: .none) {

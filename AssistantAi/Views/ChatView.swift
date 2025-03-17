@@ -41,9 +41,9 @@ struct ChatView: View {
                                 Text(model)
                                     .font(.custom(Fonts.shared.interMedium, size: 15))
                                     .foregroundStyle(.primary)
-
+                                
                                 Spacer()
-
+                                
                                 if viewModel.pickedModel["key"] ?? "" == model {
                                     Image(systemName: "checkmark")
                                         .foregroundStyle(.green)
@@ -89,24 +89,24 @@ struct ChatView: View {
                             Image(assistantItem.image)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 70, height: 70)
+                                .frame(width: stateProvider.isIpad ? 90 : 70, height: stateProvider.isIpad ? 90 : 70)
                                 .clipShape(Circle())
                             
-                            Text("Start a conversation with \(assistantItem.title)")
-                                .font(.headline)
+                            Text("Chat with \(assistantItem.title)")
+                                .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 28 : 19))
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
                             
                             Text(assistantItem.description)
-                                .font(.subheadline)
+                                .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 19 : 15))
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.center)
                         }
                         .padding()
                         .cornerRadius(16)
                         .shadow(radius: 5)
-                        .padding(.horizontal, 20)
-                        .padding(.top, UIScreen.main.bounds.height * (isFocused ? 0.03 : 0.18))
+                        .padding(.horizontal, stateProvider.isIpad ? 60 : 15)
+                        .padding(.top, UIScreen.main.bounds.height * (isFocused ? 0.03 : 0.21))
                         .animation(.easeInOut, value: isFocused)
                     }
                 }
@@ -117,7 +117,7 @@ struct ChatView: View {
                     .padding(.bottom, 11.5)
                 
                 VStack(spacing: 0) {
-                    HStack {
+                    HStack(alignment: .center) {
                         Menu {
                             Button(action: {
                                 viewModel.showImageLibraryPicker = true
@@ -132,7 +132,8 @@ struct ChatView: View {
                         } label: {
                             Image(systemName: "photo.fill")
                                 .foregroundStyle(.white)
-                                .font(.system(size: 22, weight: .medium))
+                                .font(.system(size: stateProvider.isIpad ? 30 : 22, weight: .medium))
+                                .padding(.top, viewModel.showImages ? 10 : 0)
                         }
                         
                         VStack {
@@ -144,7 +145,7 @@ struct ChatView: View {
                                                 Image(uiImage: image)
                                                     .resizable()
                                                     .scaledToFill()
-                                                    .frame(width: 80, height: 80)
+                                                    .frame(width: stateProvider.isIpad ? 120 : 80, height: stateProvider.isIpad ? 120 : 80)
                                                     .cornerRadius(10)
                                                     .clipped()
                                                 
@@ -161,7 +162,7 @@ struct ChatView: View {
                                     }
                                     .padding(.horizontal, 14)
                                 }
-                                .frame(height: 80)
+                                .frame(height: stateProvider.isIpad ? 120 : 80)
                             }
                             
                             TextField("Ask a question", text: $viewModel.inputText, axis: .vertical)
@@ -170,40 +171,59 @@ struct ChatView: View {
                                 .lineLimit(1...5)
                                 .autocorrectionDisabled()
                         }
-                        .padding(.vertical, 13)
+                        .padding(.vertical, stateProvider.isIpad ? 20 : 13)
                         .background(Colors.shared.cardColor)
                         .cornerRadius(26)
                         .padding(.horizontal, 2.5)
                         
-                        Button(action: {
-                            stateProvider.haptics.impactOccurred()
-                            
-                            if !stateProvider.isSubscribed {
-                                Superwall.shared.register(placement: "campaign_trigger")
-                                return
+                        if viewModel.isWriting {
+                            Button(action: {
+                                stateProvider.haptics.impactOccurred()
+                                viewModel.cancelResponse()
+                            }) {
+                                ZStack {
+                                    Circle()
+                                        .fill(Colors.shared.darkGreen)
+                                        .frame(width: stateProvider.isIpad ? 55 : 40, height: stateProvider.isIpad ? 55 : 40)
+                                    
+                                    Image(systemName: "stop.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: stateProvider.isIpad ? 26 : 17, height: stateProvider.isIpad ? 26 : 17)
+                                        .foregroundStyle(.white)
+                                }
                             }
-                            
-                            if viewModel.inputText.isEmpty { return }
-                            
-                            viewModel.scrollToBottom(proxy: proxy)
-                            Task {
-                                await viewModel.sendMessage()
-                            }
-                        }) {
-                            ZStack {
-                                Circle()
-                                    .fill(Colors.shared.darkGreen)
-                                    .frame(width: 40, height: 40)
+                        } else {
+                            Button(action: {
+                                stateProvider.haptics.impactOccurred()
                                 
-                                Image("send")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 22, height: 22)
+                                if !stateProvider.isSubscribed {
+                                    Superwall.shared.register(placement: "campaign_trigger")
+                                    return
+                                }
+                                
+                                if viewModel.inputText.isEmpty { return }
+                                
+                                viewModel.scrollToBottom(proxy: proxy)
+                                Task {
+                                    await viewModel.sendMessage()
+                                }
+                            }) {
+                                ZStack {
+                                    Circle()
+                                        .fill(Colors.shared.darkGreen)
+                                        .frame(width: stateProvider.isIpad ? 55 : 40, height: stateProvider.isIpad ? 55 : 40)
+                                    
+                                    Image("send")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: stateProvider.isIpad ? 30 : 22, height: stateProvider.isIpad ? 30 : 22)
+                                }
                             }
                         }
                     }
                 }
-                .padding(.horizontal, 13)
+                .padding(.horizontal, stateProvider.isIpad ? 60 : 14)
                 .padding(.bottom, 11.5)
                 .onAppear {
                     proxy.scrollTo("BottomPadding", anchor: .bottom)
@@ -292,7 +312,7 @@ struct ChatView: View {
             
             ToolbarItem(placement: .principal) {
                 Text(assistantItem.title)
-                    .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 19))
+                    .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 28 : 19))
                     .foregroundStyle(.white)
             }
             
