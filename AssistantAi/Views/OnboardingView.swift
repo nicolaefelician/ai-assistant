@@ -62,9 +62,9 @@ struct OnboardingView: View {
     ]
     
     private let iPadOnboardingInfos: [OnboardingInfo] = [
-        OnboardingInfo(title: "Dive In and Discover", subtitle: "Explore the many ways your AI can make your life easier. Try a few commands and see what's possible.", image: "o1", buttonText: "Continue", topPadding: 15, imageHeight: 675, shadowPadding: 250),
-        OnboardingInfo(title: "Your Tasks - Simplified", subtitle: "Let our AI handle the details, so you can focus on what matters most.", image: "o2", buttonText: "Continue", topPadding: 15, imageHeight: 675, shadowPadding: 250),
-        OnboardingInfo(title: "Unlimited AI Assistance", subtitle: "Discover endless services from image generation to math solving.", image: "o3", buttonText: "Continue", topPadding: -40, imageHeight: 800, shadowPadding: 300),
+        OnboardingInfo(title: "Dive In and Discover", subtitle: "Explore the many ways your AI can make your life easier. Try a few commands and see what's possible.", image: "o1", buttonText: "Continue", topPadding: 30, imageHeight: 675, shadowPadding: 250),
+        OnboardingInfo(title: "Your Tasks - Simplified", subtitle: "Let our AI handle the details, so you can focus on what matters most.", image: "o2", buttonText: "Continue", topPadding: 30, imageHeight: 675, shadowPadding: 250),
+        OnboardingInfo(title: "Unlimited AI Assistance", subtitle: "Discover endless services from image generation to math solving.", image: "o3", buttonText: "Continue", topPadding: -30, imageHeight: 800, shadowPadding: 300),
     ]
     
     private func onboardingPage(_ info: OnboardingInfo) -> some View {
@@ -131,7 +131,7 @@ struct OnboardingView: View {
                 Text(info.buttonText)
                     .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 24 : 21))
                     .foregroundStyle(.white)
-                    .padding(.vertical, stateProvider.isIpad ? 24 : 19)
+                    .padding(.vertical, stateProvider.isIpad ? 24 : 17)
                     .frame(maxWidth: .infinity)
                     .background(Color(hex: "#25272a"))
                     .cornerRadius(13)
@@ -267,13 +267,13 @@ struct OnboardingView: View {
                 Text("Loved by millions")
                     .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 50 : 33))
                     .foregroundStyle(Colors.shared.lightGreen)
-                    .padding(.top, 30)
+                    .padding(.top, 15)
                 
                 Image("reviews")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: stateProvider.isIpad ? 280 : 180)
-                    .padding(.top, stateProvider.isIpad ? -45 : -15)
+                    .frame(height: stateProvider.isIpad ? 280 : 170)
+                    .padding(.top, stateProvider.isIpad ? -45 : -20)
                 
                 Spacer()
                 
@@ -286,7 +286,7 @@ struct OnboardingView: View {
                     Text("Get Started")
                         .font(.custom(Fonts.shared.interMedium, size: 21))
                         .foregroundStyle(.white)
-                        .padding(.vertical, stateProvider.isIpad ? 24 : 19)
+                        .padding(.vertical, stateProvider.isIpad ? 24 : 17)
                         .frame(maxWidth: .infinity)
                         .background(Color(hex: "#25272a"))
                         .cornerRadius(13)

@@ -300,7 +300,6 @@ struct HomeView: View {
     }
     
     @ObservedObject private var stateProvider = StateProvider.shared
-    @StateObject private var viewModel = HomeViewModel()
     @State private var selectedCategory: PromptItemCategory = .dating
     
     var body: some View {

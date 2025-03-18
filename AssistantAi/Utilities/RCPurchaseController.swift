@@ -23,7 +23,6 @@ final class RCPurchaseController: PurchaseController {
     func syncSubscriptionStatus() {
         assert(Purchases.isConfigured, "You must configure RevenueCat before calling this method.")
         Task {
-            
             for await customerInfo in Purchases.shared.customerInfoStream {
                 // Gets called whenever new CustomerInfo is available
                 let superwallEntitlements = customerInfo.entitlements.activeInCurrentEnvironment.keys.map {
@@ -48,7 +47,6 @@ final class RCPurchaseController: PurchaseController {
             let storeProduct = RevenueCat.StoreProduct(sk2Product: sk2Product)
             let revenueCatResult = try await Purchases.shared.purchase(product: storeProduct)
             if revenueCatResult.userCancelled {
-                Superwall.shared.register(placement: "special_offer")
                 return .cancelled
             } else {
                 StateProvider.shared.isSubscribed = true
