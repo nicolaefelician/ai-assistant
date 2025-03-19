@@ -134,6 +134,7 @@ struct ImageGenerationPopup: View {
                                     let image = try await StableDiffusionApi.shared.generateImage(prompt, aspectRatio: selectedAspectRatio, style: selectedArtStyle.value)
                                     
                                     stateProvider.path.append(.imageDataView(image: image))
+                                    stateProvider.completeTask("Image")
                                 } catch {
                                     withAnimation {
                                         stateProvider.errorMessage = "Oops! Something went wrong while generating your image. Please try again later."
@@ -158,7 +159,7 @@ struct ImageGenerationPopup: View {
                         .disabled(prompt.isEmpty)
                     }
                 }
-                .frame(width: 450)
+                .frame(width: stateProvider.isIpad ? 450 : 320)
                 .padding()
                 .background(Color.black.opacity(0.8))
                 .cornerRadius(16)

@@ -91,6 +91,7 @@ struct PDFSummaryCard: View {
                                 let summary = try await GeminiApi.shared.getPDFSummary(pdfData: pdfData)
                                 
                                 stateProvider.path.append(.summaryView(text: summary))
+                                stateProvider.completeTask("PDF")
                             } catch {
                                 withAnimation {
                                     stateProvider.errorMessage = "Couldn't summarize the PDF. Make sure the file is valid and try again."

@@ -18,7 +18,7 @@ func getChatAssistant(_ type: ApiModelType) -> any ApiModel {
 enum NavigationDestination: Hashable {
     case settingsView
     case chatView(prompt: String? = nil, modelType: ApiModelType = .chatGpt, chatHistory: ChatHistoryItem? = nil)
-    case summaryView(text: String)
+    case summaryView(text: String, isLyrics: Bool = false)
     case imageDataView(image: UIImage)
     case audioDataView(audioPath: String)
 }

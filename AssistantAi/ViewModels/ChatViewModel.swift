@@ -48,16 +48,6 @@ final class ChatViewModel: ObservableObject {
         return stringToShare
     }
     
-    func scrollToBottom(proxy: ScrollViewProxy) {
-        guard let id = self.messages.last?.id else { return }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            withAnimation(.easeOut(duration: 0.3)) {
-                proxy.scrollTo(id, anchor: .bottom)
-            }
-        }
-    }
-    
     @MainActor
     func sendMessage() async {
         let temp = self.inputText

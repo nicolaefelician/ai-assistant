@@ -167,7 +167,7 @@ struct ChatView: View {
                             
                             TextField("Ask a question", text: $viewModel.inputText, axis: .vertical)
                                 .focused($isFocused)
-                                .padding(.leading, 16)
+                                .padding(.horizontal, 16)
                                 .lineLimit(1...5)
                                 .autocorrectionDisabled()
                         }
@@ -197,16 +197,19 @@ struct ChatView: View {
                             Button(action: {
                                 stateProvider.haptics.impactOccurred()
                                 
-                                if !stateProvider.isSubscribed {
-                                    Superwall.shared.register(placement: "campaign_trigger")
-                                    return
-                                }
-                                
                                 if viewModel.inputText.isEmpty { return }
                                 
-                                viewModel.scrollToBottom(proxy: proxy)
-                                Task {
-                                    await viewModel.sendMessage()
+                                if stateProvider.messagesCount > 0 || stateProvider.isSubscribed {
+                                    Task {
+                                        await viewModel.sendMessage()
+                                    }
+                                    stateProvider.sendMessage()
+                                } else {
+                                    Superwall.shared.register(placement: "campaign_trigger")
+                                }
+                                
+                                withAnimation(.easeOut(duration: 0.3)) {
+                                    proxy.scrollTo("BottomPadding", anchor: .bottom)
                                 }
                             }) {
                                 ZStack {

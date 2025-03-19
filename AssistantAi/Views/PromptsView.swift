@@ -79,10 +79,12 @@ struct PromptsView: View {
     private func taskCard(_ task: AiTask) -> some View {
         Button(action: {
             stateProvider.haptics.impactOccurred()
-            if stateProvider.isSubscribed {
+            if stateProvider.isSubscribed || task.title == "Insights" || task.title == "Story" || task.title == "Coding" {
                 task.onTap()
-            } else {
+            } else if stateProvider.isTaskCompleted(task) {
                 Superwall.shared.register(placement: "campaign_trigger")
+            } else {
+                task.onTap()
             }
         }) {
             VStack(alignment: .leading) {

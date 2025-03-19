@@ -72,7 +72,7 @@ struct ContentView: View {
                     switch destination {
                     case .settingsView: SettingsView()
                     case .chatView(let prompt, let modelType, let chatHistory): ChatView(prompt: prompt, modelType: modelType, chatHistory: chatHistory)
-                    case .summaryView(let text): SummaryView(text: text)
+                    case .summaryView(let text, let isLyrics): SummaryView(text: text, isLyrics: isLyrics)
                     case .imageDataView(let image): ImageDataView(image: image)
                     case .audioDataView(let audioData): AudioDataView(audioFilePath: audioData)
                     }

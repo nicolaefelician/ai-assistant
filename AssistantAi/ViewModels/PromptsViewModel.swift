@@ -21,6 +21,7 @@ final class PromptsViewModel: ObservableObject {
                     let solved = try await GeminiApi.shared.solveMathProblem(image)
                     
                     self.stateProvider.path.append(.summaryView(text: solved))
+                    self.stateProvider.completeTask("Math")
                 } catch {
                     self.stateProvider.errorMessage = error.localizedDescription
                     self.stateProvider.showError = true

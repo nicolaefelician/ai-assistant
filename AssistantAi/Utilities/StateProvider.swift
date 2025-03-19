@@ -38,6 +38,49 @@ final class StateProvider: ObservableObject {
     
     @Published var showPhotoCamera: Bool = false
     
+    @Published var messagesCount: Int = 0
+    
+    private let userDefaults = UserDefaults.standard
+    private let messageCountKey = "dailyMessageCount"
+    private let lastResetKey = "lastResetDate"
+    private let taskKey = "CompletedTasks"
+    
+    private func loadMessagesCount() {
+        let lastResetDate = userDefaults.object(forKey: lastResetKey) as? Date ?? Date.distantPast
+        
+        if !Calendar.current.isDateInToday(lastResetDate) {
+            resetDailyMessages()
+        } else {
+            messagesCount = userDefaults.integer(forKey: messageCountKey)
+        }
+    }
+    
+    func sendMessage() {
+        guard messagesCount > 0 else { return }
+        
+        messagesCount -= 1
+        userDefaults.set(messagesCount, forKey: messageCountKey)
+    }
+    
+    func isTaskCompleted(_ task: AiTask) -> Bool {
+        let completedTasks = UserDefaults.standard.array(forKey: taskKey) as? [String] ?? []
+        return completedTasks.contains(task.title)
+    }
+    
+    func completeTask(_ taskTitle: String) {
+        var completedTasks = UserDefaults.standard.array(forKey: taskKey) as? [String] ?? []
+        if !completedTasks.contains(taskTitle) {
+            completedTasks.append(taskTitle)
+            UserDefaults.standard.set(completedTasks, forKey: taskKey)
+        }
+    }
+    
+    private func resetDailyMessages() {
+        messagesCount = 3
+        userDefaults.set(messagesCount, forKey: messageCountKey)
+        userDefaults.set(Date(), forKey: lastResetKey)
+    }
+    
     func saveChatHistory() {
         do {
             let data = try JSONEncoder().encode(chatHistory)
@@ -59,6 +102,7 @@ final class StateProvider: ObservableObject {
             self.isSubscribed = customerInfo?.entitlements.all["Pro"]?.isActive == true
         }
         showOnboarding = !UserDefaults.standard.bool(forKey: "onboardingCompleted")
+        loadMessagesCount()
         let fileURL = getChatHistoryFileURL()
         do {
             let data = try Data(contentsOf: fileURL)

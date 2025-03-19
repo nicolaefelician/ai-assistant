@@ -89,7 +89,8 @@ struct AudioDataView: View {
             Spacer()
             
             Text("Audio Playback")
-                .font(.title3)
+                .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 28))
+                .foregroundStyle(.white)
             
             HStack {
                 Button(action: {
@@ -103,6 +104,7 @@ struct AudioDataView: View {
                     Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
                         .resizable()
                         .frame(width: 90, height: 90)
+                        .foregroundStyle(Colors.shared.lightGreen)
                 }
                 .padding()
             }
@@ -111,38 +113,51 @@ struct AudioDataView: View {
             
             HStack(spacing: 10) {
                 Button(action: {
-                    downloadAudio()
+                    shareAudio()
                 }) {
                     HStack {
-                        Image(systemName: "arrow.down")
-                        Text("Download")
+                        Image("share")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                        Text("Share")
+                            .font(.custom(Fonts.shared.interRegular, size: 16))
+                            .foregroundStyle(.white)
                     }
                     .font(.headline)
                     .foregroundColor(.white)
-                    .padding()
                     .frame(height: 54)
                     .frame(maxWidth: .infinity)
-                    .background(Colors.shared.lightGreen)
-                    .cornerRadius(12)
-                    .shadow(radius: 5)
+                    .background(Colors.shared.backgroundColor)
+                    .cornerRadius(14)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Colors.shared.lightGreen, lineWidth: 1)
+                    )
                 }
                 .frame(maxWidth: .infinity)
                 
                 Button(action: {
-                    shareAudio()
+                    downloadAudio()
                 }) {
                     HStack {
-                        Image(systemName: "square.and.arrow.up")
-                        Text("Share")
+                        Image("download")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                        Text("Download")
+                            .font(.custom(Fonts.shared.interRegular, size: 16))
+                            .foregroundStyle(.white)
                     }
-                    .font(.headline)
                     .foregroundColor(.white)
-                    .padding()
                     .frame(height: 54)
                     .frame(maxWidth: .infinity)
-                    .background(Colors.shared.lightGreen)
-                    .cornerRadius(12)
-                    .shadow(radius: 5)
+                    .background(Colors.shared.backgroundColor)
+                    .cornerRadius(14)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Colors.shared.lightGreen, lineWidth: 1)
+                    )
                 }
                 .frame(maxWidth: .infinity)
             }

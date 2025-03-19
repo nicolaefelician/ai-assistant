@@ -82,7 +82,8 @@ struct LyricsGenerationPopup: View {
                             do {
                                 let lyrics = try await GeminiApi.shared.generateLyrics(lyricsPrompt, style: selectedStyle)
                                 
-                                stateProvider.path.append(.summaryView(text: lyrics))
+                                stateProvider.path.append(.summaryView(text: lyrics, isLyrics: true))
+                                stateProvider.completeTask("Creativity")
                             } catch {
                                 withAnimation {
                                     stateProvider.errorMessage = "Couldn't generate lyrics. Try a different prompt or check your connection."

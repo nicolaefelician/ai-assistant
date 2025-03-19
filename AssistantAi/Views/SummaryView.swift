@@ -3,6 +3,7 @@ import SwiftUI
 struct SummaryView: View {
     @ObservedObject private var stateProvider = StateProvider.shared
     let text: String
+    let isLyrics: Bool
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -26,32 +27,49 @@ struct SummaryView: View {
                     stateProvider.isSharing = true
                 }) {
                     HStack {
-                        Image(systemName: "square.and.arrow.up")
+                        Image("share")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
                         Text("Share")
+                            .font(.custom(Fonts.shared.interRegular, size: 16))
+                            .foregroundStyle(.white)
                     }
                     .font(.headline)
                     .foregroundColor(.white)
-                    .padding()
+                    .frame(height: 54)
                     .frame(maxWidth: .infinity)
-                    .background(Colors.shared.lightGreen )
-                    .cornerRadius(12)
-                    .shadow(radius: 5)
+                    .background(Colors.shared.backgroundColor)
+                    .cornerRadius(14)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Colors.shared.lightGreen, lineWidth: 1)
+                    )
                 }
                 
                 Button(action: {
+                    stateProvider.haptics.impactOccurred()
                     UIPasteboard.general.string = text
                 }) {
                     HStack {
-                        Image(systemName: "doc.on.doc")
+                        Image("copy")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
                         Text("Copy")
+                            .font(.custom(Fonts.shared.interRegular, size: 16))
+                            .foregroundStyle(.white)
                     }
                     .font(.headline)
                     .foregroundColor(.white)
-                    .padding()
+                    .frame(height: 54)
                     .frame(maxWidth: .infinity)
-                    .background(Colors.shared.lightGreen)
-                    .cornerRadius(12)
-                    .shadow(radius: 5)
+                    .background(Colors.shared.backgroundColor)
+                    .cornerRadius(14)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Colors.shared.lightGreen, lineWidth: 1)
+                    )
                 }
             }
             .padding(.bottom)
@@ -72,7 +90,7 @@ struct SummaryView: View {
         }
         .padding(.horizontal)
         .background(Colors.shared.backgroundColor)
-        .navigationTitle("Summary")
+        .navigationTitle(isLyrics ? "Lyrics" : "Summary")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

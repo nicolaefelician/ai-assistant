@@ -72,6 +72,7 @@ struct YoutubeSummaryCard: View {
                                 let summary = try await GeminiApi.shared.getYoutubeSummary(videoURL)
                                 
                                 stateProvider.path.append(.summaryView(text: summary))
+                                stateProvider.completeTask("YouTube")
                             } catch {
                                 withAnimation {
                                     stateProvider.errorMessage = "Video summary failed. Check the link and try again."

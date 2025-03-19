@@ -1,4 +1,5 @@
 import SwiftUI
+import Photos
 
 struct ImageDataView: View {
     @ObservedObject private var stateProvider = StateProvider.shared
@@ -22,32 +23,61 @@ struct ImageDataView: View {
                     stateProvider.isSharing = true
                 }) {
                     HStack {
-                        Image(systemName: "square.and.arrow.up")
+                        Image("share")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
                         Text("Share")
+                            .font(.custom(Fonts.shared.interRegular, size: 16))
+                            .foregroundStyle(.white)
                     }
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(height: 54)
                     .frame(maxWidth: .infinity)
-                    .background(Colors.shared.lightGreen)
-                    .cornerRadius(12)
-                    .shadow(radius: 5)
+                    .background(Colors.shared.backgroundColor)
+                    .cornerRadius(14)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Colors.shared.lightGreen, lineWidth: 1)
+                    )
                 }
                 
                 Button(action: {
-                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    let status = PHPhotoLibrary.authorizationStatus()
+                    
+                    if status == .authorized {
+                        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    } else if status == .notDetermined {
+                        PHPhotoLibrary.requestAuthorization { newStatus in
+                            if newStatus == .authorized {
+                                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                            } else {
+                                print("User denied access to Photos.")
+                            }
+                        }
+                    } else {
+                        print("Access to Photos is restricted or denied.")
+                    }
                 }) {
                     HStack {
-                        Image(systemName: "arrow.down.circle")
+                        Image("download")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
                         Text("Download")
+                            .font(.custom(Fonts.shared.interRegular, size: 16))
+                            .foregroundStyle(.white)
                     }
-                    .font(.headline)
                     .foregroundColor(.white)
                     .frame(height: 54)
                     .frame(maxWidth: .infinity)
-                    .background(Colors.shared.darkGreen)
-                    .cornerRadius(12)
-                    .shadow(radius: 5)
+                    .background(Colors.shared.backgroundColor)
+                    .cornerRadius(14)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Colors.shared.lightGreen, lineWidth: 1)
+                    )
                 }
             }
             .padding(.bottom)

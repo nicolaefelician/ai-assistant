@@ -56,9 +56,9 @@ struct OnboardingView: View {
     ]
     
     private let iOSOnboardingInfos: [OnboardingInfo] = [
-        OnboardingInfo(title: "Dive In and Discover", subtitle: "Explore the many ways your AI can make your life easier. Try a few commands and see what's possible.", image: "o1", buttonText: "Continue", topPadding: 1, imageHeight: 450, shadowPadding: 110),
-        OnboardingInfo(title: "Your Tasks - Simplified", subtitle: "Let our AI handle the details effortlessly, allowing you to stay focused on what matters most and achieve your goals with ease.", image: "o2", buttonText: "Continue", topPadding: 7, imageHeight: 450, shadowPadding: 125),
-        OnboardingInfo(title: "Unlimited AI Assistance", subtitle: "Discover endless services from image generation to math solving.", image: "o3", buttonText: "Continue", topPadding: -40, imageHeight: 600, shadowPadding: 220),
+        OnboardingInfo(title: "Dive In and Discover", subtitle: "Explore the many ways your AI can make your life easier. Try a few commands and see what's possible.", image: "o1", buttonText: "Continue", topPadding: 10, imageHeight: 450, shadowPadding: 115),
+        OnboardingInfo(title: "Your Tasks - Simplified", subtitle: "Let our AI handle the details effortlessly, allowing you to stay focused on what matters most and achieve your goals with ease.", image: "o2", buttonText: "Continue", topPadding: 10, imageHeight: 450, shadowPadding: 125),
+        OnboardingInfo(title: "Unlimited AI Assistance", subtitle: "Discover endless services from image generation to math solving.", image: "o3", buttonText: "Continue", topPadding: -30, imageHeight: 600, shadowPadding: 220),
     ]
     
     private let iPadOnboardingInfos: [OnboardingInfo] = [
@@ -108,7 +108,7 @@ struct OnboardingView: View {
                 .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 50 : 33))
                 .foregroundStyle(Colors.shared.lightGreen)
                 .padding(.bottom, 5)
-                .padding(.top, info.topPadding / 2)
+                .padding(.top, info.image == "o3" ? info.topPadding : 0)
             
             Text(info.subtitle)
                 .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 22 : 16))
@@ -120,7 +120,8 @@ struct OnboardingView: View {
             
             Button(action: {
                 stateProvider.haptics.impactOccurred()
-                withAnimation {
+                
+                withAnimation(.easeInOut) {
                     if currentPage == iOSOnboardingInfos.count - 1 {
                         showLastPage = true
                     } else {
@@ -129,12 +130,12 @@ struct OnboardingView: View {
                 }
             }) {
                 Text(info.buttonText)
-                    .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 24 : 21))
+                    .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 24 : 21))
                     .foregroundStyle(.white)
                     .padding(.vertical, stateProvider.isIpad ? 24 : 17)
                     .frame(maxWidth: .infinity)
                     .background(Color(hex: "#25272a"))
-                    .cornerRadius(13)
+                    .cornerRadius(20)
                     .padding(.horizontal, stateProvider.isIpad ? 90 : 40)
             }
             .padding(.bottom, stateProvider.isIpad ? 40 : 20)
@@ -186,12 +187,13 @@ struct OnboardingView: View {
                     
                     Button(action: {
                         stateProvider.haptics.impactOccurred()
+                        
                         withAnimation {
                             showFirstPage = false
                         }
                     }) {
                         Text("Continue")
-                            .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 24 : 21))
+                            .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 24 : 21))
                             .foregroundStyle(.black)
                             .padding(.vertical, stateProvider.isIpad ? 24 : 17)
                             .frame(maxWidth: .infinity)
@@ -211,7 +213,7 @@ struct OnboardingView: View {
                                 VStack(alignment: .leading) {
                                     HStack(alignment: .top, spacing: 6) {
                                         Text(review.title)
-                                            .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 20))
+                                            .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 33 : 20))
                                             .foregroundStyle(.white)
                                         
                                         Spacer()
@@ -220,7 +222,7 @@ struct OnboardingView: View {
                                             Image(systemName: "star.fill")
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(width: 18, height: 18)
+                                                .frame(width: stateProvider.isIpad ? 24 : 18, height: stateProvider.isIpad ? 24 : 18)
                                                 .foregroundStyle(.yellow)
                                         }
                                         
@@ -228,17 +230,17 @@ struct OnboardingView: View {
                                             Image(systemName: "star")
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(width: 18, height: 18)
+                                                .frame(width: stateProvider.isIpad ? 24 : 18, height: stateProvider.isIpad ? 24 : 18)
                                                 .foregroundStyle(.yellow.opacity(0.4))
                                         }
                                     }
                                     
                                     Text(review.text)
-                                        .font(.custom(Fonts.shared.interRegular, size: 14))
-                                        .foregroundStyle(.white)
+                                        .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 22 : 14))
+                                        .foregroundStyle(.white.opacity(0.8))
                                         .multilineTextAlignment(.leading)
                                 }
-                                .padding(18)
+                                .padding(stateProvider.isIpad ? 24 : 18)
                                 .background(Color(hex: "#025F33"))
                                 .cornerRadius(14)
                             }
@@ -248,7 +250,7 @@ struct OnboardingView: View {
                     }
                     .frame(height: stateProvider.isIpad ? 650 : 435)
                     .frame(maxWidth: .infinity)
-                    .padding(.horizontal, stateProvider.isIpad ? 60 : 24)
+                    .padding(.horizontal, stateProvider.isIpad ? 110 : 24)
                     
                     LinearGradient(
                         gradient: Gradient(colors: [
@@ -267,29 +269,30 @@ struct OnboardingView: View {
                 Text("Loved by millions")
                     .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 50 : 33))
                     .foregroundStyle(Colors.shared.lightGreen)
-                    .padding(.top, 15)
+                    .padding(.top, 10)
                 
                 Image("reviews")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: stateProvider.isIpad ? 280 : 170)
-                    .padding(.top, stateProvider.isIpad ? -45 : -20)
+                    .frame(height: stateProvider.isIpad ? 230 : 160)
+                    .padding(.top, stateProvider.isIpad ? -20 : -10)
                 
                 Spacer()
                 
                 Button(action: {
                     stateProvider.haptics.impactOccurred()
+                    
                     stateProvider.completeOnboarding()
                     Superwall.shared.register(placement: "campaign_trigger")
                     requestReview()
                 }) {
                     Text("Get Started")
-                        .font(.custom(Fonts.shared.interMedium, size: 21))
+                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 21))
                         .foregroundStyle(.white)
                         .padding(.vertical, stateProvider.isIpad ? 24 : 17)
                         .frame(maxWidth: .infinity)
                         .background(Color(hex: "#25272a"))
-                        .cornerRadius(13)
+                        .cornerRadius(20)
                         .padding(.horizontal, stateProvider.isIpad ? 90 : 40)
                 }
                 .padding(.bottom, stateProvider.isIpad ? 40 : 20)
