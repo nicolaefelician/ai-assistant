@@ -25,6 +25,16 @@ struct ChatView: View {
         ))
     }
     
+    private func scrollToBottom(_ proxy: ScrollViewProxy) {
+        guard let id = viewModel.messages.last?.id else { return }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.easeOut(duration: 0.3)) {
+                proxy.scrollTo(id, anchor: .bottom)
+            }
+        }
+    }
+    
     private struct ModelPickerView: View {
         @ObservedObject var viewModel: ChatViewModel
         let assistantItem: any ApiModel
@@ -75,16 +85,19 @@ struct ChatView: View {
                         LazyVStack(spacing: 0) {
                             ForEach(viewModel.messages, id: \.self) { message in
                                 ChatMessageCard(chatMessage: message, fullScreenImage: $viewModel.fullScreenImage)
+                                    .id(message.id)
                                     .padding(.bottom, 20)
                             }
-                            Rectangle()
-                                .frame(height: 15)
-                                .frame(maxWidth: .infinity)
-                                .foregroundStyle(.clear)
-                                .id("BottomPadding")
                         }
                         .padding(.horizontal, 13)
-                    } else {
+                        .onAppear {
+                            DispatchQueue.main.async {
+                                if let lastId = viewModel.messages.last?.id {
+                                    proxy.scrollTo(lastId, anchor: .bottom)
+                                }
+                            }
+                        }
+                    } else  {
                         VStack(spacing: 10) {
                             Image(assistantItem.image)
                                 .resizable()
@@ -133,7 +146,6 @@ struct ChatView: View {
                             Image(systemName: "photo.fill")
                                 .foregroundStyle(.white)
                                 .font(.system(size: stateProvider.isIpad ? 30 : 22, weight: .medium))
-                                .padding(.top, viewModel.showImages ? 10 : 0)
                         }
                         
                         VStack {
@@ -160,9 +172,10 @@ struct ChatView: View {
                                             }
                                         }
                                     }
+                                    .frame(height: stateProvider.isIpad ? 120 : 80)
                                     .padding(.horizontal, 14)
+                                    .padding(.bottom, 5)
                                 }
-                                .frame(height: stateProvider.isIpad ? 120 : 80)
                             }
                             
                             TextField("Ask a question", text: $viewModel.inputText, axis: .vertical)
@@ -200,16 +213,12 @@ struct ChatView: View {
                                 if viewModel.inputText.isEmpty { return }
                                 
                                 if stateProvider.messagesCount > 0 || stateProvider.isSubscribed {
+                                    scrollToBottom(proxy)
                                     Task {
                                         await viewModel.sendMessage()
                                     }
-                                    stateProvider.sendMessage()
                                 } else {
                                     Superwall.shared.register(placement: "campaign_trigger")
-                                }
-                                
-                                withAnimation(.easeOut(duration: 0.3)) {
-                                    proxy.scrollTo("BottomPadding", anchor: .bottom)
                                 }
                             }) {
                                 ZStack {
@@ -228,9 +237,6 @@ struct ChatView: View {
                 }
                 .padding(.horizontal, stateProvider.isIpad ? 60 : 14)
                 .padding(.bottom, 11.5)
-                .onAppear {
-                    proxy.scrollTo("BottomPadding", anchor: .bottom)
-                }
             }
             .background(Colors.shared.backgroundColor)
         }

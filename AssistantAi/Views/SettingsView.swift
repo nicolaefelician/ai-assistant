@@ -58,7 +58,7 @@ struct SettingsView: View {
     private func contactUs() {
         let email = "feliciannicolae433@gmail.com"
         let subject = "Support Request"
-        let body = "Hi, I need help with... (AI Assistant 1.0.6)"
+        let body = "Hi, I need help with... (AI Assistant 1.0.9)"
         let mailtoURL = "mailto:\(email)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&body=\(body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
         
         if let url = URL(string: mailtoURL) {

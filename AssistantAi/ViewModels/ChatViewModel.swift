@@ -73,6 +73,7 @@ final class ChatViewModel: ObservableObject {
                     self.messages[self.messages.count - 1] = chatMessage
                 }
                 self.uploadedImages.removeAll()
+                stateProvider.sendMessage()
             } catch let error as NSError {
                 if error.domain == NSURLErrorDomain && error.code == -999 {
                     print("User cancelled the task.")
