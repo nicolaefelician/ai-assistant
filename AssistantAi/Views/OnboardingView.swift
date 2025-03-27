@@ -117,28 +117,6 @@ struct OnboardingView: View {
                 .padding(.horizontal, stateProvider.isIpad ? 90 : 35)
             
             Spacer()
-            
-            Button(action: {
-                stateProvider.haptics.impactOccurred()
-                
-                withAnimation(.easeInOut) {
-                    if currentPage == iOSOnboardingInfos.count - 1 {
-                        showLastPage = true
-                    } else {
-                        currentPage += 1
-                    }
-                }
-            }) {
-                Text(info.buttonText)
-                    .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 24 : 21))
-                    .foregroundStyle(.white)
-                    .padding(.vertical, stateProvider.isIpad ? 24 : 17)
-                    .frame(maxWidth: .infinity)
-                    .background(Color(hex: "#25272a"))
-                    .cornerRadius(20)
-                    .padding(.horizontal, stateProvider.isIpad ? 90 : 40)
-            }
-            .padding(.bottom, stateProvider.isIpad ? 40 : 20)
         }
         .ignoresSafeArea(edges: .top)
         .padding(.top, info.topPadding)
@@ -269,13 +247,13 @@ struct OnboardingView: View {
                 Text("Loved by millions")
                     .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 50 : 33))
                     .foregroundStyle(Colors.shared.lightGreen)
-                    .padding(.top, 10)
+                    .padding(.top, 15)
                 
                 Image("reviews")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: stateProvider.isIpad ? 230 : 160)
-                    .padding(.top, stateProvider.isIpad ? -20 : -10)
+                    .frame(height: stateProvider.isIpad ? 240 : 165)
+                    .padding(.top, stateProvider.isIpad ? -15 : -10)
                 
                 Spacer()
                 
@@ -300,11 +278,39 @@ struct OnboardingView: View {
             .padding(.top, 15)
             .background(backgroundColor)
         } else {
-            TabView(selection: $currentPage) {
-                onboardingPage(stateProvider.isIpad ? iPadOnboardingInfos[currentPage] : iOSOnboardingInfos[currentPage])
+            VStack {
+                TabView(selection: $currentPage) {
+                    ForEach(0..<iOSOnboardingInfos.count, id: \.self) { index in
+                        let info = stateProvider.isIpad ? iPadOnboardingInfos[index] : iOSOnboardingInfos[index]
+                        onboardingPage(info)
+                            .tag(index)
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                
+                Button(action: {
+                    stateProvider.haptics.impactOccurred()
+                    
+                    withAnimation {
+                        if currentPage == iOSOnboardingInfos.count - 1 {
+                            showLastPage = true
+                        } else {
+                            currentPage += 1
+                        }
+                    }
+                }) {
+                    Text(stateProvider.isIpad ? iPadOnboardingInfos[currentPage].buttonText : iOSOnboardingInfos[currentPage].buttonText)
+                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 24 : 21))
+                        .foregroundStyle(.white)
+                        .padding(.vertical, stateProvider.isIpad ? 24 : 17)
+                        .frame(maxWidth: .infinity)
+                        .background(Color(hex: "#25272a"))
+                        .cornerRadius(20)
+                        .padding(.horizontal, stateProvider.isIpad ? 90 : 40)
+                }
+                .padding(.bottom, stateProvider.isIpad ? 40 : 20)
             }
             .ignoresSafeArea(edges: .top)
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .background(backgroundColor)
         }
     }

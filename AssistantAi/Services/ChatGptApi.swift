@@ -36,12 +36,11 @@ final class ChatGptApi: ApiModel, Hashable {
     }
     
     var models: [String: String] = [
-        "GPT-4.5 Preview": "gpt-4.5-preview",
+        "GPT-4o Mini": "gpt-4o-mini",
+        "Omni-3 Mini": "o3-mini",
+        "Omni-1": "o1",
         "GPT-4o": "gpt-4o",
         "GPT-4 Turbo": "gpt-4-turbo",
-        "GPT-4o Mini": "gpt-4o-mini",
-        "Omni-1": "o1",
-        "Omni-3 Mini": "o3-mini"
     ]
     
     var title: String = "ChatGPT"

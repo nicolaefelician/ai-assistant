@@ -82,7 +82,7 @@ struct ChatView: View {
             VStack(spacing: 0) {
                 ScrollView(showsIndicators: false) {
                     if !viewModel.messages.isEmpty {
-                        LazyVStack(spacing: 0) {
+                        VStack(spacing: 0) {
                             ForEach(viewModel.messages, id: \.self) { message in
                                 ChatMessageCard(chatMessage: message, fullScreenImage: $viewModel.fullScreenImage)
                                     .id(message.id)
@@ -90,13 +90,6 @@ struct ChatView: View {
                             }
                         }
                         .padding(.horizontal, 13)
-                        .onAppear {
-                            DispatchQueue.main.async {
-                                if let lastId = viewModel.messages.last?.id {
-                                    proxy.scrollTo(lastId, anchor: .bottom)
-                                }
-                            }
-                        }
                     } else  {
                         VStack(spacing: 10) {
                             Image(assistantItem.image)
@@ -213,9 +206,9 @@ struct ChatView: View {
                                 if viewModel.inputText.isEmpty { return }
                                 
                                 if stateProvider.messagesCount > 0 || stateProvider.isSubscribed {
-                                    scrollToBottom(proxy)
                                     Task {
                                         await viewModel.sendMessage()
+                                        scrollToBottom(proxy)
                                     }
                                 } else {
                                     Superwall.shared.register(placement: "campaign_trigger")
@@ -239,6 +232,13 @@ struct ChatView: View {
                 .padding(.bottom, 11.5)
             }
             .background(Colors.shared.backgroundColor)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    if let lastId = viewModel.messages.last?.id {
+                        proxy.scrollTo(lastId, anchor: .bottom)
+                    }
+                }
+            }
         }
         .sheet(isPresented: $viewModel.showImageLibraryPicker) {
             ImagePicker(selectedImage: $viewModel.selectedImage, isImagePickerPresented: $viewModel.showImageLibraryPicker, sourceType: .photoLibrary)
@@ -306,35 +306,40 @@ struct ChatView: View {
             ModelPickerView(viewModel: viewModel, assistantItem: assistantItem)
         }
         .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    stateProvider.haptics.impactOccurred()
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image("back")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 28, height: 28)
+                HStack {
+                    Button(action: {
+                        stateProvider.haptics.impactOccurred()
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image("back")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 28, height: 28)
+                    }
                 }
+                .frame(height: 44)
             }
-            
             ToolbarItem(placement: .principal) {
                 Text(assistantItem.title)
                     .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 28 : 19))
                     .foregroundStyle(.white)
             }
-            
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
-                    stateProvider.haptics.impactOccurred()
-                    viewModel.showActionSheet = true
-                }) {
-                    Image("more")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 23, height: 23)
+                HStack {
+                    Button(action: {
+                        stateProvider.haptics.impactOccurred()
+                        viewModel.showActionSheet = true
+                    }) {
+                        Image("more")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 23, height: 23)
+                    }
                 }
+                .frame(height: 44)
             }
         }
     }
