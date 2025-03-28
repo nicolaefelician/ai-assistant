@@ -89,6 +89,7 @@ struct ChatView: View {
                                     .padding(.bottom, 20)
                             }
                         }
+                        .padding(.top, 20)
                         .padding(.horizontal, 13)
                     } else  {
                         VStack(spacing: 10) {
@@ -112,7 +113,7 @@ struct ChatView: View {
                         .cornerRadius(16)
                         .shadow(radius: 5)
                         .padding(.horizontal, stateProvider.isIpad ? 60 : 15)
-                        .padding(.top, UIScreen.main.bounds.height * (isFocused ? 0.03 : 0.21))
+                        .padding(.top, UIScreen.main.bounds.height * (isFocused ? 0.03 : 0.23))
                         .animation(.easeInOut, value: isFocused)
                     }
                 }
