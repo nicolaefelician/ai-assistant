@@ -1,10 +1,14 @@
 import SwiftUI
+import LaTeXSwiftUI
 
 struct ChatMessageCard: View {
     @ObservedObject var chatMessage: ChatMessage
     @Binding var fullScreenImage: UIImage?
+    @Binding var isWriting: Bool
     
     @ObservedObject private var stateProvider = StateProvider.shared
+    
+    @State private var showCopySuccess: Bool = false
     
     private struct TypingIndicatorView: View {
         @State private var animate = false
@@ -76,23 +80,68 @@ struct ChatMessageCard: View {
                     .frame(width: stateProvider.isIpad ? 52 : 38, height: stateProvider.isIpad ? 52 : 38)
                     .clipShape(Circle())
                 
-                if let responseText = chatMessage.responseText {
-                    Text(responseText)
-                        .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 19 : 17))
-                        .foregroundStyle(.white)
-                        .multilineTextAlignment(.leading)
-                        .textSelection(.enabled)
-                } else if let responseError = chatMessage.responseError {
-                    Text(responseError)
-                        .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 19 : 17))
-                        .foregroundColor(.red)
-                        .multilineTextAlignment(.leading)
-                        .padding(10)
-                        .background(Color.red.opacity(0.2))
-                        .cornerRadius(8)
-                    
-                } else {
-                    TypingIndicatorView()
+                VStack(alignment: .leading, spacing: 10) {
+                    if let responseText = chatMessage.responseText {
+                        if isWriting {
+                            Text(responseText)
+                                .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 19 : 17))
+                                .foregroundStyle(.white)
+                                .multilineTextAlignment(.leading)
+                                .textSelection(.enabled)
+                        } else {
+                            LaTeX(responseText)
+                                .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 19 : 17))
+                                .foregroundStyle(.white)
+                                .multilineTextAlignment(.leading)
+                                .textSelection(.enabled)
+                                .parsingMode(.onlyEquations)
+                                .blockMode(.blockViews)
+                        }
+                        
+                        HStack(spacing: 15) {
+                            Button(action: {
+                                withAnimation {
+                                    showCopySuccess = true
+                                }
+                                
+                                UIPasteboard.general.string = responseText
+                                let generator = UINotificationFeedbackGenerator()
+                                generator.notificationOccurred(.success)
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    withAnimation {
+                                        showCopySuccess = false
+                                    }
+                                }
+                            }) {
+                                Label("Copy", systemImage: showCopySuccess ? "checkmark" : "doc.on.doc")
+                                    .font(.custom(Fonts.shared.interRegular, size: 15))
+                                    .foregroundColor(.white.opacity(0.85))
+                            }
+                            
+                            Button(action: {
+                                let activityVC = UIActivityViewController(activityItems: [responseText], applicationActivities: nil)
+                                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                                   let rootVC = windowScene.windows.first?.rootViewController {
+                                    rootVC.present(activityVC, animated: true, completion: nil)
+                                }
+                            }) {
+                                Label("Share", systemImage: "square.and.arrow.up")
+                                    .font(.custom(Fonts.shared.interRegular, size: 15))
+                                    .foregroundColor(.white.opacity(0.85))
+                            }
+                        }
+                    } else if let responseError = chatMessage.responseError {
+                        Text(responseError)
+                            .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 19 : 17))
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.leading)
+                            .padding(10)
+                            .background(Color.red.opacity(0.2))
+                            .cornerRadius(8)
+                    } else {
+                        TypingIndicatorView()
+                    }
                 }
                 
                 Spacer()

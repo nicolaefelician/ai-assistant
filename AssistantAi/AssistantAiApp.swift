@@ -7,7 +7,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         
-        Purchases.logLevel = .debug
+        Purchases.logLevel = .info
         Purchases.configure(withAPIKey: Consts.shared.revenueCatApiKey)
         
         Superwall.configure(apiKey: "pk_b38105b2e3e504e9d8b49ce83261b13f3c1cc7ed18bc2367", purchaseController: purchaseController)

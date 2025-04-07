@@ -11,7 +11,7 @@ final class StateProvider: ObservableObject {
     
     let haptics = UIImpactFeedbackGenerator(style: .medium)
     
-    @Published var isSubscribed: Bool = false
+    @Published var isSubscribed: Bool = true
     
     @Published var path: [NavigationDestination] = []
     
@@ -101,7 +101,8 @@ final class StateProvider: ObservableObject {
         Purchases.shared.getCustomerInfo { (customerInfo, error) in
             self.isSubscribed = customerInfo?.entitlements.all["Pro"]?.isActive == true
         }
-        showOnboarding = !UserDefaults.standard.bool(forKey: "onboardingCompleted")
+//        showOnboarding = !UserDefaults.standard.bool(forKey: "onboardingCompleted")
+        showOnboarding = true
         loadMessagesCount()
         let fileURL = getChatHistoryFileURL()
         do {

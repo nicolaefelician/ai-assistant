@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8130F8042D7E08E300D0E624 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 8130F8032D7E08E300D0E624 /* FirebaseVertexAI */; };
+		8166E64B2DA3C01E00C3231D /* LaTeXSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8166E64A2DA3C01E00C3231D /* LaTeXSwiftUI */; };
 		81862CC82D84A39C00D0E35D /* SuperwallKit in Frameworks */ = {isa = PBXBuildFile; productRef = 81862CC72D84A39C00D0E35D /* SuperwallKit */; };
 		81862CCB2D84A52200D0E35D /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 81862CCA2D84A52200D0E35D /* RevenueCat */; };
 		81862CCD2D84A52200D0E35D /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81862CCC2D84A52200D0E35D /* RevenueCatUI */; };
@@ -54,6 +55,7 @@
 				81862CCD2D84A52200D0E35D /* RevenueCatUI in Frameworks */,
 				81862CCB2D84A52200D0E35D /* RevenueCat in Frameworks */,
 				819F2BEB2D7C64F20028C5DD /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				8166E64B2DA3C01E00C3231D /* LaTeXSwiftUI in Frameworks */,
 				81862CC82D84A39C00D0E35D /* SuperwallKit in Frameworks */,
 				F8EA3CABF1ADD00FA146BCB3 /* Pods_AssistantAi.framework in Frameworks */,
 			);
@@ -125,6 +127,7 @@
 				81862CC72D84A39C00D0E35D /* SuperwallKit */,
 				81862CCA2D84A52200D0E35D /* RevenueCat */,
 				81862CCC2D84A52200D0E35D /* RevenueCatUI */,
+				8166E64A2DA3C01E00C3231D /* LaTeXSwiftUI */,
 			);
 			productName = AssistantAi;
 			productReference = 817B777B2D79BEDC0069841F /* AssistantAi.app */;
@@ -158,6 +161,7 @@
 				819F2BE72D7C64F20028C5DD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				81862CC62D84A39C00D0E35D /* XCRemoteSwiftPackageReference "Superwall-iOS" */,
 				81862CC92D84A52200D0E35D /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+				8166E6492DA3C01E00C3231D /* XCRemoteSwiftPackageReference "LaTeXSwiftUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 817B777C2D79BEDC0069841F /* Products */;
@@ -360,11 +364,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0284555F654DFF23D0F90C3C /* Pods-AssistantAi.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"AssistantAi/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -386,7 +392,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.11;
+				MARKETING_VERSION = 1.0.12;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patt.assistant.ai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -401,11 +407,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4F107B46A264DB08741D103A /* Pods-AssistantAi.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"AssistantAi/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
@@ -426,7 +434,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.11;
+				MARKETING_VERSION = 1.0.12;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patt.assistant.ai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -461,6 +469,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8166E6492DA3C01E00C3231D /* XCRemoteSwiftPackageReference "LaTeXSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/colinc86/LaTeXSwiftUI";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		81862CC62D84A39C00D0E35D /* XCRemoteSwiftPackageReference "Superwall-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/superwall/Superwall-iOS";
@@ -492,6 +508,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 819F2BE72D7C64F20028C5DD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseVertexAI;
+		};
+		8166E64A2DA3C01E00C3231D /* LaTeXSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8166E6492DA3C01E00C3231D /* XCRemoteSwiftPackageReference "LaTeXSwiftUI" */;
+			productName = LaTeXSwiftUI;
 		};
 		81862CC72D84A39C00D0E35D /* SuperwallKit */ = {
 			isa = XCSwiftPackageProductDependency;

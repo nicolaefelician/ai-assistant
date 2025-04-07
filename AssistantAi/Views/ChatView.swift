@@ -84,7 +84,7 @@ struct ChatView: View {
                     if !viewModel.messages.isEmpty {
                         VStack(spacing: 0) {
                             ForEach(viewModel.messages, id: \.self) { message in
-                                ChatMessageCard(chatMessage: message, fullScreenImage: $viewModel.fullScreenImage)
+                                ChatMessageCard(chatMessage: message, fullScreenImage: $viewModel.fullScreenImage, isWriting: $viewModel.isWriting)
                                     .id(message.id)
                                     .padding(.bottom, 20)
                             }
@@ -113,7 +113,7 @@ struct ChatView: View {
                         .cornerRadius(16)
                         .shadow(radius: 5)
                         .padding(.horizontal, stateProvider.isIpad ? 60 : 15)
-                        .padding(.top, UIScreen.main.bounds.height * (isFocused ? 0.03 : 0.23))
+                        .padding(.top, UIScreen.main.bounds.height * (isFocused ? 0.04 : 0.24))
                         .animation(.easeInOut, value: isFocused)
                     }
                 }

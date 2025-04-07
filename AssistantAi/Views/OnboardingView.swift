@@ -1,5 +1,6 @@
 import SwiftUI
 import SuperwallKit
+import Combine
 
 struct OnboardingView: View {
     let backgroundColor: Color = Colors.shared.backgroundColor
@@ -11,6 +12,77 @@ struct OnboardingView: View {
     @State private var showLastPage: Bool = false
     
     @Environment(\.requestReview) var requestReview
+    
+    private struct AutoScrollView: View {
+        @State private var scrollIndex = 0
+        @State private var timer: Timer.TimerPublisher = Timer.publish(every: 2, on: .main, in: .common)
+        @State private var cancellable: Cancellable?
+        
+        @ObservedObject private var stateProvider = StateProvider.shared
+        
+        let reviewInfos: [ReviewInfo]
+        
+        var body: some View {
+            ScrollViewReader { scrollProxy in
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack {
+                        ForEach(Array(reviewInfos.enumerated()), id: \.offset) { index, review in
+                            VStack(alignment: .leading) {
+                                HStack(alignment: .top, spacing: 6) {
+                                    Text(review.title)
+                                        .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 33 : 20))
+                                        .foregroundStyle(.white)
+                                    
+                                    Spacer()
+                                    
+                                    ForEach(0..<review.stars, id: \.self) { _ in
+                                        Image(systemName: "star.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: stateProvider.isIpad ? 24 : 18, height: stateProvider.isIpad ? 24 : 18)
+                                            .foregroundStyle(.yellow)
+                                    }
+                                    
+                                    if review.stars != 5 {
+                                        Image(systemName: "star")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: stateProvider.isIpad ? 24 : 18, height: stateProvider.isIpad ? 24 : 18)
+                                            .foregroundStyle(.yellow.opacity(0.4))
+                                    }
+                                }
+                                
+                                Text(review.text)
+                                    .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 22 : 14))
+                                    .foregroundStyle(.white.opacity(0.8))
+                                    .multilineTextAlignment(.leading)
+                            }
+                            .padding(stateProvider.isIpad ? 24 : 18)
+                            .background(Color(hex: "#025F33"))
+                            .cornerRadius(14)
+                            .id(index)
+                        }
+                    }
+                    .padding(.bottom, 100)
+                }
+                .onAppear {
+                    cancellable = timer.connect()
+                }
+                .onReceive(timer) { _ in
+                    withAnimation(.linear(duration: 0.1)) {
+                        scrollProxy.scrollTo(scrollIndex, anchor: .top)
+                    }
+                    scrollIndex += 1
+                    if scrollIndex >= reviewInfos.count {
+                        scrollIndex = 0
+                    }
+                }
+                .onDisappear {
+                    cancellable?.cancel()
+                }
+            }
+        }
+    }
     
     private final class OnboardingInfo {
         let title: String
@@ -52,7 +124,15 @@ struct OnboardingView: View {
         ReviewInfo(title: "Superb Performance", stars: 5, text: "I’ve tried many alternatives, but this one stands out! Fast, smooth, and incredibly user-friendly. It’s an absolute must-have."),
         ReviewInfo(title: "Very Useful", stars: 4, text: "A great app with many useful features. I wish there were a bit more customization, but otherwise, it's fantastic."),
         ReviewInfo(title: "Highly Recommend", stars: 5, text: "An amazing experience! The interface is intuitive, and the results are outstanding. Well worth the investment."),
-        ReviewInfo(title: "Reliable and Efficient", stars: 4, text: "A great balance between functionality and ease of use. Works flawlessly most of the time. Just needs a tiny bit of polish!")
+        ReviewInfo(title: "Reliable and Efficient", stars: 4, text: "A great balance between functionality and ease of use. Works flawlessly most of the time. Just needs a tiny bit of polish!"),
+        ReviewInfo(title: "Top Notch Tool", stars: 5, text: "Clean design, smart functionality, and super fast! It's now part of my daily routine. I couldn’t ask for more."),
+        ReviewInfo(title: "Fantastic Experience", stars: 5, text: "Seamless from start to finish. No crashes, no bugs, just smooth usage. Very impressed with the attention to detail."),
+        ReviewInfo(title: "Helpful & Smart", stars: 4, text: "Very helpful in most scenarios. Some features could use refinement, but overall, it's a reliable choice."),
+        ReviewInfo(title: "Beautifully Designed", stars: 5, text: "Visually stunning and smooth to navigate. Everything feels premium and well-thought-out."),
+        ReviewInfo(title: "Delivers Results", stars: 4, text: "The accuracy and output are great. I’d love to see a few more options in the settings, but it delivers!"),
+        ReviewInfo(title: "Incredibly Intuitive", stars: 5, text: "I was up and running in seconds. The UI/UX is spot on. You can tell the team put a lot of love into this."),
+        ReviewInfo(title: "Well Executed", stars: 4, text: "Great concept, and it mostly delivers. A few occasional glitches, but nothing major. Great support too."),
+        ReviewInfo(title: "Smooth and Fast", stars: 5, text: "No lag, no delay — everything feels polished. Easily one of the best apps I’ve downloaded this year.")
     ]
     
     private let iOSOnboardingInfos: [OnboardingInfo] = [
@@ -185,50 +265,10 @@ struct OnboardingView: View {
         } else if showLastPage {
             VStack(spacing: 0) {
                 ZStack {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack {
-                            ForEach(reviewInfos, id: \.title) { review in
-                                VStack(alignment: .leading) {
-                                    HStack(alignment: .top, spacing: 6) {
-                                        Text(review.title)
-                                            .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 33 : 20))
-                                            .foregroundStyle(.white)
-                                        
-                                        Spacer()
-                                        
-                                        ForEach(0..<review.stars, id: \.self) { _ in
-                                            Image(systemName: "star.fill")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: stateProvider.isIpad ? 24 : 18, height: stateProvider.isIpad ? 24 : 18)
-                                                .foregroundStyle(.yellow)
-                                        }
-                                        
-                                        if review.stars != 5 {
-                                            Image(systemName: "star")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: stateProvider.isIpad ? 24 : 18, height: stateProvider.isIpad ? 24 : 18)
-                                                .foregroundStyle(.yellow.opacity(0.4))
-                                        }
-                                    }
-                                    
-                                    Text(review.text)
-                                        .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 22 : 14))
-                                        .foregroundStyle(.white.opacity(0.8))
-                                        .multilineTextAlignment(.leading)
-                                }
-                                .padding(stateProvider.isIpad ? 24 : 18)
-                                .background(Color(hex: "#025F33"))
-                                .cornerRadius(14)
-                            }
-                        }
-                        .padding(.top, stateProvider.isIpad ? 15 : 0)
-                        .padding(.bottom, 90)
-                    }
-                    .frame(height: stateProvider.isIpad ? 650 : 435)
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, stateProvider.isIpad ? 110 : 24)
+                    AutoScrollView(reviewInfos: reviewInfos)
+                        .frame(height: stateProvider.isIpad ? 650 : 435)
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, stateProvider.isIpad ? 110 : 24)
                     
                     LinearGradient(
                         gradient: Gradient(colors: [
@@ -247,13 +287,13 @@ struct OnboardingView: View {
                 Text("Loved by millions")
                     .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 50 : 33))
                     .foregroundStyle(Colors.shared.lightGreen)
-                    .padding(.top, 15)
+                    .padding(.top, stateProvider.isIpad ? 8 : 15)
                 
                 Image("reviews")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: stateProvider.isIpad ? 240 : 165)
-                    .padding(.top, stateProvider.isIpad ? -15 : -10)
+                    .frame(height: stateProvider.isIpad ? 230 : 165)
+                    .padding(.top, stateProvider.isIpad ? -20 : -10)
                 
                 Spacer()
                 
