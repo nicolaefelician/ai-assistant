@@ -13,6 +13,18 @@ final class ChatGptApi: ApiModel, Hashable {
         let choices: [Choice]
     }
     
+    private struct MathApiResponse: Decodable {
+        struct Message: Decodable {
+            let content: String
+        }
+        
+        struct Choice: Decodable {
+            let message: Message
+        }
+        
+        let choices: [Choice]
+    }
+    
     static func == (lhs: ChatGptApi, rhs: ChatGptApi) -> Bool {
         return lhs.modelType == rhs.modelType
     }
@@ -87,6 +99,55 @@ final class ChatGptApi: ApiModel, Hashable {
         return tempFileUrl.path
     }
     
+    func solveMathProblem(image: String) async throws -> String {
+        guard let url = URL(string: "\(Consts.shared.apiBaseUrl)/api/chatgpt/solve-math-problem") else { throw URLError(.badURL) }
+        
+        let messages: [[String: Any]] = [
+            [
+                "role": "developer",
+                "content": "You are MathGPT, a brilliant and patient math expert. Your role is to help users solve math problems of any kind — from basic arithmetic to advanced calculus, linear algebra, and discrete mathematics. Always explain your reasoning clearly and provide step-by-step solutions when possible."
+            ],
+            [
+                "role": "user",
+                "content": [["type": "text", "text": "Solve this math problem from the image."], ["type": "image_url", "image_url": ["url": "data:image/jpeg;base64,\(image)"]]]
+            ]
+        ]
+        
+        let requestBody: [String: Any] = [
+            "model": "gpt-4o-mini",
+            "messages": messages,
+            "stop": [
+                "\n\n\n",
+                "<|im_end|>"
+            ],
+        ]
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: requestBody, options: []) else {
+            print("Error: Unable to serialize JSON")
+            throw ApiError.encodingFailded
+        }
+        request.httpBody = jsonData
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+            print("Error: HTTP status code \(httpResponse.statusCode)")
+            throw ApiError.invalidResponse
+        }
+        
+        if let jsonString = String(data: data, encoding: .utf8) {
+            print(jsonString)
+        }
+        
+        let decoded = try JSONDecoder().decode(MathApiResponse.self, from: data)
+        
+        return decoded.choices.first?.message.content ?? ""
+    }
+    
     func getChatResponse(message: String, history: [ChatMessage], images: [String], version: String) async throws -> AsyncThrowingStream<String, Error> {
         guard let url = URL(string: "\(Consts.shared.apiBaseUrl)/api/chatgpt/chat") else { throw URLError(.badURL) }
         
@@ -146,10 +207,10 @@ final class ChatGptApi: ApiModel, Hashable {
         let (result, response) = try await URLSession.shared.bytes(for: request)
         
         if let httpResponse = response as? HTTPURLResponse {
-                print("HTTP Status Code:", httpResponse.statusCode)
-            } else {
-                print("Invalid response")
-            }
+            print("HTTP Status Code:", httpResponse.statusCode)
+        } else {
+            print("Invalid response")
+        }
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw ApiError.invalidResponse

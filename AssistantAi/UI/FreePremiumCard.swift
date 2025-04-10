@@ -39,7 +39,6 @@ struct FreePremiumCard: View {
                     .scaledToFill()
                     .frame(width: stateProvider.isIpad ? 120 : 80, height: stateProvider.isIpad ? 130 : 85)
             }
-            
             .background(
                 LinearGradient(
                     gradient: Gradient(colors: [

@@ -18,7 +18,9 @@ final class PromptsViewModel: ObservableObject {
                 self.stateProvider.isLoading = true
                 
                 do {
-                    let solved = try await GeminiApi.shared.solveMathProblem(image)
+                    guard let image = image.toBase64() else { return }
+                    
+                    let solved = try await ChatGptApi.shared.solveMathProblem(image: image)
                     
                     self.stateProvider.path.append(.summaryView(text: solved))
                     self.stateProvider.completeTask("Math")

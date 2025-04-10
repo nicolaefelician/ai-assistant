@@ -113,14 +113,6 @@ final class GeminiApi: ApiModel, Hashable {
         }
     }
     
-    func solveMathProblem(_ image: UIImage) async throws -> String {
-        let model = vertex.generativeModel(modelName: "gemini-2.0-flash")
-        
-        let data = try await model.generateContent(image, "Solve this math problem from the image.")
-        
-        return cleanResponseText(data.text ?? "")
-    }
-    
     func generateLyrics(_ prompt: String, style: String) async throws -> String {
         let model = vertex.generativeModel(modelName: "gemini-2.0-flash")
         

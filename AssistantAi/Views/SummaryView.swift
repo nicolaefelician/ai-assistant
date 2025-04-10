@@ -1,4 +1,5 @@
 import SwiftUI
+import LaTeXSwiftUI
 
 struct SummaryView: View {
     @ObservedObject private var stateProvider = StateProvider.shared
@@ -10,7 +11,7 @@ struct SummaryView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             ScrollView {
-                Text(text)
+                LaTeX(text)
                     .frame(maxWidth: .infinity)
                     .font(.body)
                     .foregroundColor(.white)
@@ -19,6 +20,8 @@ struct SummaryView: View {
                     .cornerRadius(12)
                     .padding(.top, 20)
                     .textSelection(.enabled)
+                    .parsingMode(.onlyEquations)
+                    .blockMode(.blockViews)
             }
             
             HStack(spacing: 12) {
