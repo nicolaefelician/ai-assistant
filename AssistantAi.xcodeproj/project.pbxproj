@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8130F8042D7E08E300D0E624 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 8130F8032D7E08E300D0E624 /* FirebaseVertexAI */; };
+		815D97AD2DB1465000CAEFEF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815D97AC2DB1465000CAEFEF /* StoreKit.framework */; };
 		8166E64B2DA3C01E00C3231D /* LaTeXSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8166E64A2DA3C01E00C3231D /* LaTeXSwiftUI */; };
 		81862CC82D84A39C00D0E35D /* SuperwallKit in Frameworks */ = {isa = PBXBuildFile; productRef = 81862CC72D84A39C00D0E35D /* SuperwallKit */; };
 		81862CCB2D84A52200D0E35D /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 81862CCA2D84A52200D0E35D /* RevenueCat */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		0284555F654DFF23D0F90C3C /* Pods-AssistantAi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssistantAi.debug.xcconfig"; path = "Target Support Files/Pods-AssistantAi/Pods-AssistantAi.debug.xcconfig"; sourceTree = "<group>"; };
 		4F107B46A264DB08741D103A /* Pods-AssistantAi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssistantAi.release.xcconfig"; path = "Target Support Files/Pods-AssistantAi/Pods-AssistantAi.release.xcconfig"; sourceTree = "<group>"; };
+		815D97AC2DB1465000CAEFEF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		817B777B2D79BEDC0069841F /* AssistantAi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AssistantAi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2E919B2B37A764207885906 /* Pods_AssistantAi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AssistantAi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -50,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				815D97AD2DB1465000CAEFEF /* StoreKit.framework in Frameworks */,
 				819F2BE92D7C64F20028C5DD /* FirebaseAnalytics in Frameworks */,
 				8130F8042D7E08E300D0E624 /* FirebaseVertexAI in Frameworks */,
 				81862CCD2D84A52200D0E35D /* RevenueCatUI in Frameworks */,
@@ -94,6 +97,7 @@
 		819F2BF22D7C66D60028C5DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				815D97AC2DB1465000CAEFEF /* StoreKit.framework */,
 				E2E919B2B37A764207885906 /* Pods_AssistantAi.framework */,
 			);
 			name = Frameworks;
@@ -110,7 +114,7 @@
 				817B77772D79BEDC0069841F /* Sources */,
 				817B77782D79BEDC0069841F /* Frameworks */,
 				817B77792D79BEDC0069841F /* Resources */,
-				81862CC52D849C2D00D0E35D /* ShellScript */,
+				81862CC52D849C2D00D0E35D /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -184,7 +188,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		81862CC52D849C2D00D0E35D /* ShellScript */ = {
+		81862CC52D849C2D00D0E35D /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -198,6 +202,7 @@
 				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
 				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -364,13 +369,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0284555F654DFF23D0F90C3C /* Pods-AssistantAi.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1";
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1 PIGreenIcon PIPurple APlusGreenIcon APlusIcon";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"AssistantAi/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -392,7 +397,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.14;
+				MARKETING_VERSION = 1.0.15;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patt.assistant.ai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -407,13 +412,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4F107B46A264DB08741D103A /* Pods-AssistantAi.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1";
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1 PIGreenIcon PIPurple APlusGreenIcon APlusIcon";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"AssistantAi/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
@@ -434,7 +439,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.14;
+				MARKETING_VERSION = 1.0.15;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patt.assistant.ai;
 				PRODUCT_NAME = "$(TARGET_NAME)";

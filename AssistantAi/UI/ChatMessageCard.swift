@@ -84,13 +84,13 @@ struct ChatMessageCard: View {
                     if let responseText = chatMessage.responseText {
                         if isWriting {
                             Text(responseText)
-                                .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 19 : 17))
+                                .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 19 : 17))
                                 .foregroundStyle(.white)
                                 .multilineTextAlignment(.leading)
                                 .textSelection(.enabled)
                         } else {
                             LaTeX(responseText)
-                                .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 19 : 17))
+                                .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 19 : 17))
                                 .foregroundStyle(.white)
                                 .multilineTextAlignment(.leading)
                                 .textSelection(.enabled)
