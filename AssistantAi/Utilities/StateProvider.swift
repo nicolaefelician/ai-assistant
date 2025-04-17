@@ -104,14 +104,8 @@ final class StateProvider: ObservableObject {
         }
         
         if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
-            let result = Bool.random()
-            
-            if result {
-                showOnboarding = true
-            } else {
-                Superwall.shared.register(placement: "onboarding_paywall")
-                completeOnboarding()
-            }
+            Superwall.shared.register(placement: "onboarding_paywall")
+            completeOnboarding()
         }
         
         loadMessagesCount()
