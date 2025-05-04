@@ -60,11 +60,16 @@ struct HistoryView: View {
                 .frame(maxWidth: .infinity)
             } else {
                 VStack(spacing: 10) {
+                    if !stateProvider.isSubscribed {
+                        FreePremiumCard()
+                            .padding(.bottom, 10)
+                    }
+                    
                     HStack {
-                        Image("search")
+                        Image(systemName: "magnifyingglass")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 29, height: 29)
+                            .frame(width: 25, height: 25)
                         
                         TextField("Search by title or date", text: $viewModel.inputText)
                             .foregroundStyle(.white)
@@ -83,18 +88,39 @@ struct HistoryView: View {
                     }
                     .padding(.top, 10)
                     
-                    VStack(spacing: 13) {
-                        ForEach(viewModel.filteredChatHistories.sorted { $0.date > $1.date }) { historyItem in
-                            Button(action: {
-                                stateProvider.haptics.impactOccurred()
-                                stateProvider.path.append(.chatView(modelType: historyItem.apiModelType, chatHistory: historyItem))
-                            }) {
-                                historyCard(historyItem)
+                    if viewModel.filteredChatHistories.isEmpty && !viewModel.inputText.isEmpty {
+                        VStack(spacing: 16) {
+                            Image(systemName: "magnifyingglass")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: stateProvider.isIpad ? 60 : 40, height: stateProvider.isIpad ? 60 : 40)
+                                .foregroundColor(.gray)
+                            
+                            Text("No Results Found")
+                                .font(.custom(Fonts.shared.instrumentSansSemiBold, size: stateProvider.isIpad ? 28 : 21))
+                                .foregroundColor(.white)
+                            
+                            Text("Try searching with different keywords or browse your chat history.")
+                                .font(.custom(Fonts.shared.interRegular, size: stateProvider.isIpad ? 18 : 15))
+                                .foregroundColor(.gray)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, stateProvider.isIpad ? 40 : 20)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, stateProvider.isIpad ? 40 : 30)
+                        .background(Colors.shared.cardColor)
+                        .cornerRadius(16)
+                    } else {
+                        VStack(spacing: 13) {
+                            ForEach(viewModel.filteredChatHistories.sorted { $0.date > $1.date }) { historyItem in
+                                Button(action: {
+                                    stateProvider.haptics.impactOccurred()
+                                    stateProvider.path.append(.chatView(modelType: historyItem.apiModelType, chatHistory: historyItem))
+                                }) {
+                                    historyCard(historyItem)
+                                }
                             }
                         }
-                    }
-                    .onAppear {
-                        viewModel.filteredChatHistories = stateProvider.chatHistory
                     }
                 }
                 .padding(.horizontal, stateProvider.isIpad ? 60 : 14)
@@ -118,6 +144,9 @@ struct HistoryView: View {
                     }
                     
                     Button("Cancel", role: .cancel) { }
+                }
+                .onAppear {
+                    viewModel.filteredChatHistories = stateProvider.chatHistory
                 }
             }
         }

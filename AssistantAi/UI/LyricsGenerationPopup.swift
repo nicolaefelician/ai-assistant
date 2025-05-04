@@ -4,9 +4,20 @@ struct LyricsGenerationPopup: View {
     @State private var selectedStyle = "Pop"
     @State private var lyricsPrompt = ""
     @ObservedObject private var stateProvider = StateProvider.shared
+    @State private var selectedMood = "Happy"
     
     private let musicStyles = [
         "Pop", "Rock", "Rap", "Jazz", "Country", "Classical", "EDM", "R&B", "Reggae", "Metal"
+    ]
+    
+    private let moods = [
+        "Sad",
+        "Happy",
+        "Aggressive",
+        "Romantic",
+        "Inspirational",
+        "Chill",
+        "Dark"
     ]
     
     var body: some View {
@@ -43,21 +54,40 @@ struct LyricsGenerationPopup: View {
                         }
                     }
                     
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Select Style")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                        
-                        Picker("Select Style", selection: $selectedStyle) {
-                            ForEach(musicStyles, id: \.self) { style in
-                                Text(style).tag(style)
+                    HStack(spacing: 10) {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Style")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                            
+                            Picker("Select Style", selection: $selectedStyle) {
+                                ForEach(musicStyles, id: \.self) { style in
+                                    Text(style).tag(style)
+                                }
                             }
+                            .pickerStyle(.menu)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(10)
                         }
-                        .pickerStyle(.menu)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
+                        
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Mood")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                            
+                            Picker("Select Mood", selection: $selectedMood) {
+                                ForEach(moods, id: \.self) { mood in
+                                    Text(mood).tag(mood)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(10)
+                        }
                     }
                     
                     VStack(alignment: .leading, spacing: 6) {
@@ -80,7 +110,7 @@ struct LyricsGenerationPopup: View {
                             }
                             
                             do {
-                                let lyrics = try await GeminiApi.shared.generateLyrics(lyricsPrompt, style: selectedStyle)
+                                let lyrics = try await GeminiApi.shared.generateLyrics(lyricsPrompt, style: selectedStyle, mood: selectedMood)
                                 
                                 stateProvider.path.append(.summaryView(text: lyrics, isLyrics: true))
                                 stateProvider.completeTask("Creativity")

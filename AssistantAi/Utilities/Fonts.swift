@@ -5,7 +5,7 @@ final class Fonts {
     
     private init() {}
     
-    let interMedium = "Inter_24pt-Regular"
+    let interMedium = "Inter_24pt-SemiBold"
     let instrumentSansSemiBold = "InstrumentSans-SemiBold"
     let interRegular = "Inter_24pt-Regular"
 }

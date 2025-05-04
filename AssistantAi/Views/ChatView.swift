@@ -113,7 +113,7 @@ struct ChatView: View {
                         .cornerRadius(16)
                         .shadow(radius: 5)
                         .padding(.horizontal, stateProvider.isIpad ? 60 : 15)
-                        .padding(.top, UIScreen.main.bounds.height * (isFocused ? 0.04 : 0.24))
+                        .padding(.top, UIScreen.main.bounds.height * (isFocused ? 0.07 : 0.24))
                         .animation(.easeInOut, value: isFocused)
                     }
                 }
@@ -292,7 +292,7 @@ struct ChatView: View {
                 stateProvider.stringToShare = viewModel.getShareString()
                 stateProvider.isSharing = true
             } label: {
-                Text("Export text")
+                Text("Export chat")
             }
             
             Button(role: .none) {

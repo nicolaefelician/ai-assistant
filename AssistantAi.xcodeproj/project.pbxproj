@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		811704CE2DC7FD5F00E91747 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811704CD2DC7FD5F00E91747 /* StoreKit.framework */; };
 		8130F8042D7E08E300D0E624 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 8130F8032D7E08E300D0E624 /* FirebaseVertexAI */; };
-		815D97AD2DB1465000CAEFEF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815D97AC2DB1465000CAEFEF /* StoreKit.framework */; };
 		8166E64B2DA3C01E00C3231D /* LaTeXSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8166E64A2DA3C01E00C3231D /* LaTeXSwiftUI */; };
 		81862CC82D84A39C00D0E35D /* SuperwallKit in Frameworks */ = {isa = PBXBuildFile; productRef = 81862CC72D84A39C00D0E35D /* SuperwallKit */; };
 		81862CCB2D84A52200D0E35D /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 81862CCA2D84A52200D0E35D /* RevenueCat */; };
@@ -21,7 +21,7 @@
 /* Begin PBXFileReference section */
 		0284555F654DFF23D0F90C3C /* Pods-AssistantAi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssistantAi.debug.xcconfig"; path = "Target Support Files/Pods-AssistantAi/Pods-AssistantAi.debug.xcconfig"; sourceTree = "<group>"; };
 		4F107B46A264DB08741D103A /* Pods-AssistantAi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssistantAi.release.xcconfig"; path = "Target Support Files/Pods-AssistantAi/Pods-AssistantAi.release.xcconfig"; sourceTree = "<group>"; };
-		815D97AC2DB1465000CAEFEF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		811704CD2DC7FD5F00E91747 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		817B777B2D79BEDC0069841F /* AssistantAi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AssistantAi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2E919B2B37A764207885906 /* Pods_AssistantAi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AssistantAi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -52,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				815D97AD2DB1465000CAEFEF /* StoreKit.framework in Frameworks */,
+				811704CE2DC7FD5F00E91747 /* StoreKit.framework in Frameworks */,
 				819F2BE92D7C64F20028C5DD /* FirebaseAnalytics in Frameworks */,
 				8130F8042D7E08E300D0E624 /* FirebaseVertexAI in Frameworks */,
 				81862CCD2D84A52200D0E35D /* RevenueCatUI in Frameworks */,
@@ -97,7 +97,7 @@
 		819F2BF22D7C66D60028C5DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				815D97AC2DB1465000CAEFEF /* StoreKit.framework */,
+				811704CD2DC7FD5F00E91747 /* StoreKit.framework */,
 				E2E919B2B37A764207885906 /* Pods_AssistantAi.framework */,
 			);
 			name = Frameworks;
@@ -370,19 +370,19 @@
 			baseConfigurationReference = 0284555F654DFF23D0F90C3C /* Pods-AssistantAi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1 PIGreenIcon PIPurple APlusGreenIcon APlusIcon";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = PIPurple;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"AssistantAi/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AssistantAi/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "AI Assistant";
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Chatbot";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses the camera to capture images for AI-powered analysis, enabling features like text recognition and content generation.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your Photo Library to save images.";
@@ -397,7 +397,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.15;
+				MARKETING_VERSION = 1.0.16;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patt.assistant.ai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -413,18 +413,18 @@
 			baseConfigurationReference = 4F107B46A264DB08741D103A /* Pods-AssistantAi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1 PIGreenIcon PIPurple APlusGreenIcon APlusIcon";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = PIPurple;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"AssistantAi/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AssistantAi/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "AI Assistant";
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Chatbot";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses the camera to capture images for AI-powered analysis, enabling features like text recognition and content generation.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your Photo Library to save images.";
@@ -439,7 +439,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.15;
+				MARKETING_VERSION = 1.0.16;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patt.assistant.ai;
 				PRODUCT_NAME = "$(TARGET_NAME)";

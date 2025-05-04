@@ -62,18 +62,18 @@ struct PromptsView: View {
                 StateProvider.shared.showImageGeneration = true
             }
         },
+        AiTask(title: "Math", subTitle: "Snap a picture and solve math equations instantly", image: "math_icon", backgroundColor: Color.indigo, cardHeight: 225, position: .bottom) {
+            StateProvider.shared.showPhotoCamera = true
+        },
+        AiTask(title: "Insights", subTitle: "Invest with insight", image: "insights_icon", backgroundColor: Color.brown, cardHeight: 107, position: .rightBottom) {
+            StateProvider.shared.path.append(.chatView(modelType: .invest))
+        },
         AiTask(title: "Creativity", subTitle: "Compose lyrics to the style of your choice", image: "creativity_icon", backgroundColor: Color.blue, cardHeight: 200, position: .bottom) {
             withAnimation {
                 StateProvider.shared.isBlurred = true
                 StateProvider.shared.showLyricsGeneration = true
             }
         },
-        AiTask(title: "Insights", subTitle: "Invest with insight", image: "insights_icon", backgroundColor: Color.brown, cardHeight: 107, position: .rightBottom) {
-            StateProvider.shared.path.append(.chatView(modelType: .invest))
-        },
-        AiTask(title: "Math", subTitle: "Snap a picture and solve math equations instantly", image: "math_icon", backgroundColor: Color.indigo, cardHeight: 225, position: .bottom) {
-            StateProvider.shared.showPhotoCamera = true
-        }
     ]
     
     private func taskCard(_ task: AiTask) -> some View {
@@ -145,11 +145,16 @@ struct PromptsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
+                if !stateProvider.isSubscribed {
+                    FreePremiumCard()
+                        .padding(.bottom, 10)
+                }
+                
                 HStack {
-                    Image("search")
+                    Image(systemName: "magnifyingglass")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 29, height: 29)
+                        .frame(width: 25, height: 25)
                     
                     TextField("Search task", text: $viewModel.inputText)
                         .foregroundStyle(.white)

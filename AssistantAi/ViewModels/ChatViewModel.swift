@@ -58,9 +58,12 @@ final class ChatViewModel: ObservableObject {
         let images = self.uploadedImages.map { return $0.toBase64() ?? "" }
         
         let chatMessage = ChatMessage(id: UUID(), sendText: temp, responseIcon: apiModel.image, images: images)
-        messages.append(chatMessage)
-        self.showImages = false
-        self.isWriting = true
+        
+        withAnimation {
+            messages.append(chatMessage)
+            self.showImages = false
+            self.isWriting = true
+        }
         
         responseTask = Task {
             do {

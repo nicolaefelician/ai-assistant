@@ -106,6 +106,8 @@ final class StateProvider: ObservableObject {
         if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
             Superwall.shared.register(placement: "onboarding_paywall")
             completeOnboarding()
+        } else if !isSubscribed {
+            Superwall.shared.register(placement: "campaign_trigger")
         }
         
         loadMessagesCount()

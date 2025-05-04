@@ -98,38 +98,66 @@ struct ChatMessageCard: View {
                                 .blockMode(.blockViews)
                         }
                         
-                        HStack(spacing: 15) {
-                            Button(action: {
-                                withAnimation {
-                                    showCopySuccess = true
-                                }
-                                
-                                UIPasteboard.general.string = responseText
-                                let generator = UINotificationFeedbackGenerator()
-                                generator.notificationOccurred(.success)
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                    withAnimation {
-                                        showCopySuccess = false
+                        if !responseText.isEmpty {
+                            HStack(spacing: 15) {
+                                Button(action: {
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                                        showCopySuccess = true
                                     }
+                                    
+                                    UIPasteboard.general.string = responseText
+                                    let generator = UINotificationFeedbackGenerator()
+                                    generator.notificationOccurred(.success)
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                                            showCopySuccess = false
+                                        }
+                                    }
+                                }) {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: showCopySuccess ? "checkmark.circle.fill" : "doc.on.doc")
+                                            .font(.system(size: stateProvider.isIpad ? 18 : 16, weight: .medium))
+                                        Text(showCopySuccess ? "Copied!" : "Copy")
+                                            .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 16 : 14))
+                                    }
+                                    .foregroundColor(showCopySuccess ? Colors.shared.lightGreen : .white.opacity(0.85))
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 8)
+                                    .background(Colors.shared.cardColor)
+                                    .cornerRadius(20)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(showCopySuccess ? Colors.shared.lightGreen : Color.white.opacity(0.2), lineWidth: 1)
+                                    )
                                 }
-                            }) {
-                                Label("Copy", systemImage: showCopySuccess ? "checkmark" : "doc.on.doc")
-                                    .font(.custom(Fonts.shared.interRegular, size: 15))
+                                
+                                Button(action: {
+                                    stateProvider.haptics.impactOccurred()
+                                    let activityVC = UIActivityViewController(activityItems: [responseText], applicationActivities: nil)
+                                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                                       let rootVC = windowScene.windows.first?.rootViewController {
+                                        rootVC.present(activityVC, animated: true, completion: nil)
+                                    }
+                                }) {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: "square.and.arrow.up")
+                                            .font(.system(size: stateProvider.isIpad ? 18 : 16, weight: .medium))
+                                        Text("Share")
+                                            .font(.custom(Fonts.shared.interMedium, size: stateProvider.isIpad ? 16 : 14))
+                                    }
                                     .foregroundColor(.white.opacity(0.85))
-                            }
-                            
-                            Button(action: {
-                                let activityVC = UIActivityViewController(activityItems: [responseText], applicationActivities: nil)
-                                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                                   let rootVC = windowScene.windows.first?.rootViewController {
-                                    rootVC.present(activityVC, animated: true, completion: nil)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 8)
+                                    .background(Colors.shared.cardColor)
+                                    .cornerRadius(20)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                    )
                                 }
-                            }) {
-                                Label("Share", systemImage: "square.and.arrow.up")
-                                    .font(.custom(Fonts.shared.interRegular, size: 15))
-                                    .foregroundColor(.white.opacity(0.85))
                             }
+                            .padding(.top, 8)
                         }
                     } else if let responseError = chatMessage.responseError {
                         Text(responseError)
