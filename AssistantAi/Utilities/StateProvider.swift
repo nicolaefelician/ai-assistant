@@ -104,8 +104,16 @@ final class StateProvider: ObservableObject {
         }
         
         if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
-            Superwall.shared.register(placement: "onboarding_paywall")
-            completeOnboarding()
+            let showWebOnboarding = Bool.random()
+            
+            if showWebOnboarding {
+                Superwall.shared.register(placement: "onboarding_paywall")
+                completeOnboarding()
+            } else {
+                withAnimation {
+                    showOnboarding = true
+                }
+            }
         } else if !isSubscribed {
             Superwall.shared.register(placement: "campaign_trigger")
         }

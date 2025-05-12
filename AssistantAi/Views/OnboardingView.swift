@@ -300,9 +300,11 @@ struct OnboardingView: View {
                 Button(action: {
                     stateProvider.haptics.impactOccurred()
                     
-                    stateProvider.completeOnboarding()
-                    Superwall.shared.register(placement: "campaign_trigger")
-                    requestReview()
+                    withAnimation {
+                        stateProvider.completeOnboarding()
+                    }
+                    
+                    Superwall.shared.register(placement: "paywall_onboarding_shown")
                 }) {
                     Text("Get Started")
                         .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 21))
@@ -317,6 +319,11 @@ struct OnboardingView: View {
             }
             .padding(.top, 15)
             .background(backgroundColor)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    requestReview()
+                }
+            }
         } else {
             VStack {
                 TabView(selection: $currentPage) {
