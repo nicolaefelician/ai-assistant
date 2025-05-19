@@ -366,12 +366,12 @@
 			baseConfigurationReference = 0284555F654DFF23D0F90C3C /* Pods-AssistantAi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1 PIGreenIcon PIPurple APlusGreenIcon APlusIcon";
-				ASSETCATALOG_COMPILER_APPICON_NAME = DarkIcon3;
+				ASSETCATALOG_COMPILER_APPICON_NAME = DarkIcon2;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"AssistantAi/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -393,7 +393,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.19;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patt.assistant.ai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -409,12 +409,12 @@
 			baseConfigurationReference = 4F107B46A264DB08741D103A /* Pods-AssistantAi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "DarkIcon3 DarkIcon2 DarkIcon1 PIGreenIcon PIPurple APlusGreenIcon APlusIcon";
-				ASSETCATALOG_COMPILER_APPICON_NAME = DarkIcon3;
+				ASSETCATALOG_COMPILER_APPICON_NAME = DarkIcon2;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = "\"AssistantAi/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
@@ -435,7 +435,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.19;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patt.assistant.ai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
