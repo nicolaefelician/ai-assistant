@@ -50,7 +50,7 @@ struct ContentView: View {
                 .accentColor(.white)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Text("AI Chatbot")
+                        Text("AI Assistant")
                             .font(.custom(Fonts.shared.instrumentSansSemiBold, size: 28))
                             .foregroundStyle(.white)
                     }
